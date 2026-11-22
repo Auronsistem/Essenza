@@ -164,13 +164,16 @@ function calculateMath(raw){
 }
 function localSupportAnswer(question,aiDisabled){
  const math=calculateMath(question);if(math!==null)return "El resultado es "+math.toLocaleString("es-PE",{maximumFractionDigits:8})+".";
- const q=question.toLowerCase();
+ const q=question.toLowerCase().trim();
+ if(/^(hola|holi|buenas|buenos d[ií]as|buenas tardes|buenas noches|hey|hello|hi)[!. ]*$/.test(q))return "¡Hola! 👋 Soy el asistente de ESSENZA. Puedo explicarte cómo usar la plataforma, ayudarte con tus pedidos y perfumes, resolver operaciones matemáticas y responder preguntas generales. ¿Qué necesitas?";
+ if(/^(gracias|muchas gracias|thanks)[!. ]*$/.test(q))return "¡De nada! Estoy aquí para ayudarte con ESSENZA. 😊";
+ if(/^(adi[oó]s|chau|hasta luego)[!. ]*$/.test(q))return "¡Hasta luego! Cuando necesites ayuda con ESSENZA, aquí estaré.";
  if(/pedido|solicitud|compra|estado/.test(q))return "Puedes revisar el avance en “Mis pedidos”. Cuando el administrador inicia el pedido aparece como “En preparación”; al terminarlo verás “Tu pedido está listo”.";
  if(/cat[aá]logo|perfume|producto|stock|precio/.test(q))return "En “Catálogo de perfumes” puedes consultar los productos publicados, su precio y el stock disponible. Si un perfume no aparece, actualiza la página e inténtalo de nuevo.";
  if(/mensaje|chat|hablar|contactar/.test(q))return "Abre “Mensajes” para conversar directamente con el administrador de ESSENZA. La conversación es privada entre el comprador y la administración.";
  if(/contrase[nñ]a|iniciar sesi[oó]n|cerrar sesi[oó]n|cuenta/.test(q))return "Tu cuenta permanece registrada aunque cierres sesión. Para volver a entrar usa el mismo correo y contraseña. Si no recuerdas la contraseña, pulsa “¿Olvidaste tu contraseña?” en la pantalla de acceso.";
  if(/admin|administrador|publicar/.test(q))return "La primera cuenta registrada en ESSENZA tiene el rol de administrador. El administrador puede publicar perfumes y gestionar las solicitudes de compra.";
- return aiDisabled?"La IA avanzada todavía está pendiente de activación. Por ahora puedo ayudarte con ESSENZA, pedidos, catálogo y operaciones matemáticas sencillas.":"Puedo orientarte sobre ESSENZA y preguntas generales. Cuéntame un poco más para ayudarte.";
+ return "Puedo ayudarte con ESSENZA, pedidos, catálogo, cuentas y cálculos. Para responder mejor, dime un poco más sobre tu pregunta.";
 }
 function addSupportLine(text,mine){const bubble=document.createElement("div");bubble.className="chat-bubble"+(mine?" mine":"");bubble.textContent=text;$("supportLog").append(bubble);$("supportLog").scrollTop=$("supportLog").scrollHeight}
 $("showSupport").onclick=()=>{$("supportPanel").classList.remove("hidden");$("supportInput").focus()};
