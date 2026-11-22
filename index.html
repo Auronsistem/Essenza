@@ -70,7 +70,7 @@ async function load(){
   adminId=adminProfile?.id||null;
  }
  $("admin").classList.toggle("hidden",!isAdmin);$("pending").classList.toggle("hidden",isAdmin);
- if(isAdmin){$("pending").querySelector("h3").textContent="Tu cuenta está lista.";$("pending").querySelector(".muted").textContent="El panel de administración está reservado para la primera cuenta registrada."}
+ if(isAdmin){$("pending").querySelector("h3").textContent="Tu cuenta está lista.";$("pending").querySelector(".muted").textContent="El panel de administración está reservado para la primera cuenta registrada."}else{$("pending").querySelector("h3").textContent="Cuenta de comprador";$("pending").querySelector(".muted").textContent="Tu cuenta está activa. Explora el catálogo, consulta tus pedidos y conversa con ESSENZA desde Mensajes."}
  $("catalogSection").classList.remove("hidden");$("adminInboxSection").classList.toggle("hidden",!isAdmin);$("buyerInboxSection").classList.toggle("hidden",isAdmin);
  await products();await loadOrders();subscribeMessages();
 }
