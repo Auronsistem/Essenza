@@ -257,6 +257,7 @@ function hideCallOverlay(){
 function setCallStatusText(value){$("callStatus").textContent=value}
 async function joinPrivateCallChannel(callId){
  if(callChannel)await sb.removeChannel(callChannel);
+ await sb.realtime.setAuth();
  return await new Promise((resolve,reject)=>{
   const channel=sb.channel("essenza-call:"+callId,{config:{private:true}})
    .on("broadcast",{event:"signal"},({payload})=>{void handleCallSignal(payload)});
@@ -306,7 +307,7 @@ async function createCallOffer(){
 async function handleCallSignal(payload){
  if(!payload||payload.from===currentUser?.id||!activeCall)return;
  try{
-  if(payload.kind==="ready"&&activeCall.caller){activeCall.accepted=true;await createCallOffer()}
+  if(payload.kind==="ready"&&activeCall.caller){activeCall.accepted=true;if(callTimeout){clearTimeout(callTimeout);callTimeout=null}await createCallOffer()}
   else if(payload.kind==="offer"&&activeCall.incoming&&activeCall.accepted){
    const pc=createCallPeer();await pc.setRemoteDescription(payload.description);await flushPendingIce();
    const answer=await pc.createAnswer();await pc.setLocalDescription(answer);
