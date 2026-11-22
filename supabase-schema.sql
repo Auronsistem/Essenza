@@ -106,6 +106,9 @@ create table if not exists public.messages (
 );
 create index if not exists messages_sender_created_idx on public.messages(sender_id,created_at);
 create index if not exists messages_recipient_created_idx on public.messages(recipient_id,created_at);
+create index if not exists orders_buyer_id_idx on public.orders(buyer_id);
+create index if not exists orders_product_id_idx on public.orders(product_id);
+create index if not exists products_created_by_idx on public.products(created_by);
 
 alter table public.profiles enable row level security;
 alter table public.products enable row level security;
@@ -116,9 +119,6 @@ alter table public.messages enable row level security;
 drop policy if exists "Essenza users read own profile" on public.profiles;
 create policy "Essenza users read own profile"
 on public.profiles for select to authenticated using((select auth.uid())=id);
-drop policy if exists "Essenza admins can read all profiles" on public.profiles;
-create policy "Essenza admins can read all profiles"
-on public.profiles for select to authenticated using(private.is_essenza_admin());
 
 -- Catalog: all authenticated buyers can see published products.
 drop policy if exists "Essenza admins can read products" on public.products;
