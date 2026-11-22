@@ -148,11 +148,11 @@ $("chatForm").onsubmit=async e=>{e.preventDefault();const body=$("chatBody").val
 // Calculadora segura para operaciones aritméticas sencillas, sin eval().
 function calculateMath(raw){
  let source=raw.toLowerCase().replace(/cu[aá]nto es|cu[aá]nto da|calcula|resuelve|resultado de/g,"").replace(/[?=]/g,"").trim();
- if(!source||!/^[0-9\\s.+\\-*/()%]+$/.test(source))return null;
- const compact=source.replace(/\\s+/g,""),tokens=compact.match(/\\d+(?:\\.\\d+)?|[()+\\-*/%]/g);
+ if(!source||!/^[0-9\s.+\-*/()%]+$/.test(source))return null;
+ const compact=source.replace(/\s+/g,""),tokens=compact.match(/\d+(?:\.\d+)?|[()+\-*/%]/g);
  if(!tokens||tokens.join("")!==compact)return null;
  let i=0;
- function primary(){const t=tokens[i++];if(t==="+")return primary();if(t==="-")return-primary();if(t==="("){const v=expression();if(tokens[i++]!==")")throw Error();return v}if(t===undefined||!/^\\d/.test(t))throw Error();return Number(t)}
+ function primary(){const t=tokens[i++];if(t==="+")return primary();if(t==="-")return-primary();if(t==="("){const v=expression();if(tokens[i++]!==")")throw Error();return v}if(t===undefined||!/^\d/.test(t))throw Error();return Number(t)}
  function term(){let v=primary();while(["*","/","%"].includes(tokens[i])){const op=tokens[i++],r=primary();if((op==="/"||op==="%")&&r===0)throw Error();v=op==="*"?v*r:op==="/"?v/r:v%r}return v}
  function expression(){let v=term();while(tokens[i]==="+"||tokens[i]==="-"){const op=tokens[i++],r=term();v=op==="+"?v+r:v-r}return v}
  try{const result=expression();if(i!==tokens.length||!Number.isFinite(result))return null;return result} catch{return null}
