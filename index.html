@@ -47,14 +47,19 @@ $("login").onsubmit=async e=>{e.preventDefault();if(!ready())return;msg("Comprob
 $("signup").onsubmit=async e=>{e.preventDefault();if(!ready())return;if($("sp").value.length<8)return msg("La contraseña debe tener al menos 8 caracteres.",true);pendingEmail=$("se").value.trim();msg("Enviando código…");const{error}=await sb.auth.signUp({email:pendingEmail,password:$("sp").value});if(error)return msg(error.message,true);$("ve").textContent=pendingEmail;tab("verify");msg("Revisa tu correo e introduce el código.")};
 $("verify").onsubmit=async e=>{e.preventDefault();if(!ready())return;const code=$("vc").value.trim();if(!/^\d{6}$/.test(code))return msg("El código debe tener exactamente 6 dígitos.",true);const{error}=await sb.auth.verifyOtp({email:pendingEmail,token:code,type:"signup"});if(error)msg(error.message,true);else await load()};
 $("forgot").onclick=async()=>{if(!ready())return;const email=$("le").value.trim();if(!email)return msg("Escribe primero tu correo electrónico para enviarte el enlace de recuperación.",true);msg("Enviando enlace de recuperación…");const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+window.location.pathname});msg(error?error.message:"Si el correo está registrado, recibirás un enlace para crear una contraseña nueva.",!!error)};
-$("reset").onsubmit=async e=>{e.preventDefault();if(!ready())return;const password=$("rp").value;if(password.length<8)return msg("La contraseña debe tener al menos 8 caracteres.",true);msg("Actualizando contraseña…");const{error}=await sb.auth.updateUser({password});if(error)return msg(error.message,true);$("rp").value="";msg("Contraseña actualizada. Ya puedes entrar con tu nueva contraseña.");tab("login")};
+$("reset").onsubmit=async e=>{e.preventDefault();if(!ready())return;const password=$("rp").value;if(password.length<8)return msg("La contraseña debe tener al menos 8 caracteres.",true);msg("Actualizando contraseña…");const{error}=await sb.auth.updateUser({password});if(error)return msg(error.message,true);await sb.auth.signOut({scope:"local"});recoveryMode=false;window.history.replaceState(null,"",window.location.pathname+window.location.search);$("rp").value="";msg("Contraseña actualizada. Inicia sesión con tu nueva contraseña.");tab("login")};
 $("resend").onclick=async()=>{if(!ready())return;const{error}=await sb.auth.resend({type:"signup",email:pendingEmail});msg(error?error.message:"Código nuevo enviado. Utiliza el más reciente.",!!error)};
 $("logout").onclick=async()=>{const{error}=await sb.auth.signOut({scope:"local"});if(error){alert("No se pudo cerrar la sesión: "+error.message);return}currentUser=null;isAdmin=false;adminId=null;selectedCustomerId=null;supportHistory=[];$("dash").classList.add("hidden");$("supportLauncher").classList.add("hidden");$("auth").classList.remove("hidden");$("lp").value="";tab("login")};
 async function load(){
+ const {data:{user},error:userError}=await sb.auth.getUser();
+ if(userError){
+  if(userError.status===401||userError.status===403){await sb.auth.signOut({scope:"local"});currentUser=null;$("dash").classList.add("hidden");$("supportLauncher").classList.add("hidden");$("auth").classList.remove("hidden");msg("La sesión anterior ya no es válida. Inicia sesión nuevamente.",true);return}
+  msg("No se pudo validar la sesión: "+userError.message,true);return;
+ }
+ if(!user){currentUser=null;$("dash").classList.add("hidden");$("supportLauncher").classList.add("hidden");$("auth").classList.remove("hidden");return}
  const {data:{session},error:sessionError}=await sb.auth.getSession();
- if(sessionError){msg("No se pudo comprobar la sesión: "+sessionError.message,true);return}
- if(!session){currentUser=null;$("dash").classList.add("hidden");$("supportLauncher").classList.add("hidden");$("auth").classList.remove("hidden");return}
- currentUser=session.user;
+ if(sessionError||!session){msg("No se pudo recuperar la sesión. Vuelve a iniciar sesión.",true);return}
+ currentUser=user;
  $("auth").classList.add("hidden");$("dash").classList.remove("hidden");$("supportLauncher").classList.remove("hidden");$("email").textContent=currentUser.email||"";
  const {data:p,error}=await sb.from("profiles").select("role").eq("id",currentUser.id).maybeSingle();
  if(error||!p){
