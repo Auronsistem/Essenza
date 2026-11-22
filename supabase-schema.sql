@@ -110,9 +110,6 @@ on public.profiles for select to authenticated using((select auth.uid())=id);
 drop policy if exists "Essenza admins can read all profiles" on public.profiles;
 create policy "Essenza admins can read all profiles"
 on public.profiles for select to authenticated using(private.is_essenza_admin());
-drop policy if exists "Authenticated users can find Essenza support profile" on public.profiles;
-create policy "Authenticated users can find Essenza support profile"
-on public.profiles for select to authenticated using(role='admin');
 
 -- Catalog: all authenticated buyers can see published products.
 drop policy if exists "Essenza admins can read products" on public.products;
