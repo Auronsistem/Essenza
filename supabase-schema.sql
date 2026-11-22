@@ -62,6 +62,15 @@ $$;
 revoke all on function private.is_essenza_admin_id(uuid) from public;
 grant execute on function private.is_essenza_admin_id(uuid) to authenticated;
 
+create or replace function private.is_essenza_profile_id(candidate uuid)
+returns boolean language sql stable security definer set search_path = ''
+as $
+  select (select auth.uid()) is not null
+    and exists(select 1 from public.profiles p where p.id=candidate);
+$;
+revoke all on function private.is_essenza_profile_id(uuid) from public;
+grant execute on function private.is_essenza_profile_id(uuid) to authenticated;
+
 create table if not exists public.products (
   id uuid primary key default gen_random_uuid(),
   name text not null,
@@ -207,7 +216,7 @@ on public.messages for insert to authenticated
 with check (
   sender_id=(select auth.uid())
   and recipient_id<>(select auth.uid())
-  and exists(select 1 from public.profiles p where p.id=recipient_id)
+  and private.is_essenza_profile_id(recipient_id)
 );
 drop policy if exists "Recipients mark Essenza messages read" on public.messages;
 create policy "Recipients mark Essenza messages read"
@@ -242,7 +251,7 @@ on public.call_sessions for insert to authenticated
 with check (
   caller_id=(select auth.uid())
   and status='ringing'
-  and exists(select 1 from public.profiles p where p.id=callee_id)
+  and private.is_essenza_profile_id(callee_id)
 );
 grant select,insert on public.call_sessions to authenticated;
 
