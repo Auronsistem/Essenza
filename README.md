@@ -9,7 +9,8 @@ Plataforma web de catálogo de perfumes, pedidos y mensajería entre compradores
 4. Configura códigos OTP de 6 dígitos y usa `{{ .Token }}` en la plantilla de confirmación.
 5. El primer usuario que verifique su correo recibe el rol admin. Los siguientes reciben user.
 6. El catálogo es visible para usuarios autenticados; las publicaciones solo las puede crear el administrador.
-7. Mensajes son privados entre cada comprador y el administrador; están protegidos con RLS y Realtime.
+7. Mensajes privados entre usuarios: búsqueda por correo exacto, lista de conversaciones y entrega en tiempo real. RLS limita la lectura y escritura de cada conversación a sus dos participantes. El buscador devuelve únicamente una coincidencia exacta y no expone el directorio completo. Los mensajes quedan guardados en Supabase aunque el destinatario no esté conectado; al volver a abrir ESSENZA podrá leerlos. La alerta en tiempo real aparece cuando tiene la web abierta.
+8. Llamadas de voz y videollamadas 1 a 1 usan WebRTC, invitaciones persistidas en `call_sessions` y señalización Realtime privada. El navegador solicita micrófono/cámara al iniciar o aceptar una llamada. Se incluye STUN para conectividad inicial; para máxima compatibilidad entre redes se debe configurar un servicio TURN con credenciales seguras.
 
 ## Vercel
 - Repositorio: `Auronsistem/Essenza`
