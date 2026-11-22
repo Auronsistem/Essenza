@@ -22,7 +22,42 @@
 .support-compose{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
 .support-compose textarea{flex:1;min-width:0;min-height:48px;max-height:100px;resize:vertical;background:#11100f;color:var(--text);border:1px solid var(--line);padding:10px;font:13px inherit}
 .support-compose button{border:0;background:var(--gold);color:#19140e;padding:0 13px;font-weight:800}
-@media(max-width:520px){.dash-actions .outline{flex:1}.chat-compose{flex-direction:column;align-items:stretch}.chat-compose .primary{width:100%}.support-fab{right:14px;bottom:14px}.support-panel{right:8px;bottom:72px;width:calc(100vw - 16px);height:min(540px,calc(100vh - 88px))}} </style></head><body><main class="shell">
+@media(max-width:520px){.dash-actions .outline{flex:1}.chat-compose{flex-direction:column;align-items:stretch}.chat-compose .primary{width:100%}.support-fab{right:14px;bottom:14px}.support-panel{right:8px;bottom:72px;width:calc(100vw - 16px);height:min(540px,calc(100vh - 88px))}}  
+.messaging-layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:14px;min-height:470px}
+.chat-sidebar,.chat-main{background:#171513;border:1px solid var(--line);border-radius:8px;min-width:0}
+.chat-sidebar{padding:14px;display:flex;flex-direction:column}
+.chat-search label{font-size:12px;color:var(--gold2);font-weight:700}
+.chat-search-row{display:flex;gap:7px;margin-top:8px}
+.chat-search-row input{width:100%;min-width:0;background:#100f0e;border:1px solid var(--line);color:var(--text);padding:10px;font:13px inherit}
+.chat-search-row button,.chat-call-actions button{border:1px solid #80623a;background:#2b241b;color:var(--gold2);padding:9px 11px;border-radius:5px;font-weight:700;white-space:nowrap}
+.chat-search-results{padding:8px 0}
+.chat-result,.chat-contact{width:100%;display:block;text-align:left;border:1px solid var(--line);background:#201d19;color:var(--text);padding:10px;border-radius:6px;margin:5px 0;cursor:pointer;overflow-wrap:anywhere}
+.chat-contact.active,.chat-result:hover,.chat-contact:hover{border-color:var(--gold);background:#30271d}
+.chat-contact small{display:block;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-list-title{font:16px Georgia;color:var(--gold2);margin:10px 0}
+.chat-contacts{overflow:auto;max-height:310px}
+.chat-main{display:flex;flex-direction:column;overflow:hidden}
+.chat-header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 15px;border-bottom:1px solid var(--line)}
+.chat-header strong{display:block;overflow-wrap:anywhere;font-size:13px}
+.chat-header small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+.chat-call-actions{display:flex;gap:6px}
+.chat-call-actions button:disabled{opacity:.35;cursor:not-allowed}
+.chat-main .chat-window{height:330px;max-height:50vh;padding:14px}
+.chat-main .chat-compose{padding:12px;margin:0;border-top:1px solid var(--line)}
+.call-overlay{position:fixed;inset:0;z-index:40;background:#080706eF;display:grid;place-items:center;padding:16px}
+.call-card{width:min(560px,100%);background:#1b1917;border:1px solid #80623a;border-radius:12px;padding:22px;box-shadow:0 24px 70px #000c;text-align:center}
+.call-card-head{display:flex;justify-content:space-between;align-items:center}
+.call-close{border:0;background:transparent;color:var(--text);font-size:26px}
+.call-card h3{font:30px Georgia;color:var(--gold2);margin:18px 0 5px}
+.call-video-stage{position:relative;background:#080808;border-radius:8px;overflow:hidden;min-height:220px;margin:14px 0}
+.call-video-stage #remoteVideo{width:100%;max-height:48vh;object-fit:contain}
+.call-video-stage #localVideo{position:absolute;right:10px;bottom:10px;width:25%;max-height:120px;object-fit:cover;border:1px solid var(--gold);border-radius:6px;background:#111}
+.call-actions{display:flex;justify-content:center;gap:10px;margin:20px 0 6px}
+.call-actions button{border:0;border-radius:24px;background:#b99a69;color:#17120c;padding:13px 20px;font-weight:800}
+.call-actions .call-hangup,.call-actions #declineCallButton{background:#a83d36;color:white}
+.call-footnote{font-size:10px;color:var(--muted);margin:16px 0 0}
+@media(max-width:760px){.messaging-layout{grid-template-columns:1fr}.chat-sidebar{max-height:260px}.chat-contacts{max-height:120px}.chat-main .chat-window{height:300px}.chat-header{align-items:flex-start;flex-direction:column}.chat-call-actions{width:100%}.chat-call-actions button{flex:1}.call-card{padding:16px}}
+</style></head><body><main class="shell">
 <header class="brand"><div class="mark">E</div><div><p class="eyebrow">ESENCIA · ESTILO · DISTINCIÓN</p><h1>ESSENZA</h1></div></header>
 <section id="auth" class="layout"><div class="intro"><p class="eyebrow">BIENVENIDO</p><h2>Tu mundo,<br><em>tu esencia.</em></h2><p class="muted">Tu espacio para administrar tu catálogo de perfumes.</p><div class="bottle">E</div></div>
 <div class="card"><div class="tabs"><button class="tab active" id="lt">Iniciar sesión</button><button class="tab" id="st">Crear cuenta</button></div>
@@ -31,16 +66,38 @@
 <form id="reset" class="form hidden"><button class="back" type="button" id="resetBack">← Volver</button><h3>Crea una contraseña nueva</h3><p class="muted small">Escribe tu nueva contraseña para recuperar el acceso a ESSENZA.</p><label>Nueva contraseña<input id="rp" type="password" minlength="8" autocomplete="new-password" required></label><button class="primary">Guardar contraseña <span>→</span></button></form>
 <form id="verify" class="form hidden"><button class="back" type="button" id="back">← Volver</button><h3>Verifica tu correo</h3><p class="muted small">Código enviado a <strong id="ve"></strong></p><label>Código de verificación<input id="vc" type="text" inputmode="numeric" autocomplete="one-time-code" minlength="6" maxlength="6" pattern="[0-9]{6}" placeholder="000000" required></label><button class="primary">Verificar y entrar <span>→</span></button><button class="text-button" type="button" id="resend">Reenviar código</button></form><div id="msg" class="message" role="status"></div></div></section>
 <section id="dash" class="dashboard hidden"><div class="dash-top"><div><p class="eyebrow">ESPACIO DE TRABAJO</p><h2>Panel ESSENZA</h2><p id="email" class="muted small"></p></div><button id="logout" class="outline">Cerrar sesión</button></div><div class="dash-actions"><button id="showMessages" class="outline" type="button">Mensajes</button><button id="showSupport" class="outline" type="button">Soporte oficial IA</button></div><div id="admin" class="hidden"><div class="welcome"><p class="eyebrow">ADMINISTRADOR PRINCIPAL</p><h3>Tu catálogo comienza aquí.</h3><p class="muted">Registra tus perfumes y organiza el stock.</p></div><div class="section"><h3>Registrar producto</h3></div><form id="pf" class="product-form"><label>Nombre del perfume<input id="pn" required></label><label>Precio (S/)<input id="pp" type="number" min="0" step=".01" required></label><label>Stock disponible<input id="ps" type="number" min="0" step="1" required></label><label class="wide">Descripción<input id="pd" placeholder="Marca, tamaño, aroma u otros detalles"></label><button class="primary wide">Guardar producto ＋</button></form><div class="section"><h3>Tus productos</h3><span id="count" class="muted small">0 productos</span></div><div id="products" class="products"><p class="muted">Todavía no hay perfumes registrados.</p></div></div><div id="pending" class="welcome hidden"><p class="eyebrow">CUENTA CREADA</p><h3>Tu cuenta está lista.</h3><p class="muted">El panel de administración está reservado para la primera cuenta registrada.</p></div><div id="catalogSection" class="hidden"><h3 class="section-title">Catálogo de perfumes</h3><p class="muted small">Explora los perfumes disponibles y solicita el que quieras.</p><div id="catalog" class="catalog-grid"></div></div><div id="adminInboxSection" class="hidden"><h3 class="section-title">Bandeja de solicitudes</h3><div id="adminOrders" class="inbox"><p class="muted">Todavía no hay solicitudes.</p></div></div><div id="buyerInboxSection" class="hidden"><h3 class="section-title">Mis pedidos</h3><div id="buyerOrders" class="inbox"><p class="muted">Todavía no has realizado pedidos.</p></div></div>
-<div id="messagesSection" class="hidden"><h3 class="section-title">Mensajes</h3><div class="chat-wrap">
-<div id="chatCustomerWrap" class="hidden"><label for="chatCustomer" class="muted small">Conversación con cliente</label><select id="chatCustomer" class="chat-select"></select></div>
-<div id="chatWindow" class="chat-window" aria-live="polite"><p class="muted">Tus mensajes aparecerán aquí.</p></div>
-<form id="chatForm" class="chat-compose"><textarea id="chatBody" maxlength="4000" placeholder="Escribe un mensaje..." required></textarea><button class="primary" type="submit">Enviar</button></form>
-<div id="chatError" class="message" role="status"></div></div></div>
+<div id="messagesSection" class="hidden"><h3 class="section-title">Mensajes privados</h3>
+<div class="messaging-layout">
+ <aside class="chat-sidebar">
+  <form id="chatSearchForm" class="chat-search"><label for="chatSearchEmail">Buscar usuario por correo</label><div class="chat-search-row"><input id="chatSearchEmail" type="email" autocomplete="off" placeholder="correo@ejemplo.com" required><button type="submit">Buscar</button></div></form>
+  <div id="chatSearchResults" class="chat-search-results" aria-live="polite"></div>
+  <h4 class="chat-list-title">Conversaciones</h4><div id="chatContacts" class="chat-contacts"><p class="muted">Todavía no tienes conversaciones.</p></div>
+ </aside>
+ <section class="chat-main">
+  <div class="chat-header"><div><strong id="chatContactEmail">Selecciona una conversación</strong><small id="chatPresence">Mensajes privados</small></div>
+   <div class="chat-call-actions"><button id="audioCallButton" type="button" disabled aria-label="Llamada de voz">☎ Llamar</button><button id="videoCallButton" type="button" disabled aria-label="Videollamada">▣ Vídeo</button></div>
+  </div>
+  <div id="chatWindow" class="chat-window" aria-live="polite"><p class="muted">Busca un usuario por su correo para comenzar.</p></div>
+  <form id="chatForm" class="chat-compose"><textarea id="chatBody" maxlength="4000" placeholder="Escribe un mensaje..." required disabled></textarea><button class="primary" type="submit" disabled>Enviar</button></form>
+  <div id="chatError" class="message" role="status"></div>
+ </section>
+</div>
+<div id="callOverlay" class="call-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="callTitle">
+ <div class="call-card">
+  <div class="call-card-head"><span class="eyebrow">ESSENZA · LLAMADAS PRIVADAS</span><button id="callCloseButton" type="button" aria-label="Cerrar llamada" class="call-close">×</button></div>
+  <h3 id="callTitle">Llamada</h3><p id="callStatus" class="muted">Conectando…</p>
+  <div id="callVideoStage" class="call-video-stage hidden"><video id="remoteVideo" autoplay playsinline></video><video id="localVideo" autoplay muted playsinline></video></div>
+  <audio id="remoteAudio" autoplay></audio>
+  <div id="incomingCallActions" class="call-actions hidden"><button id="acceptCallButton" type="button">Aceptar</button><button id="declineCallButton" type="button">Rechazar</button></div>
+  <div id="activeCallActions" class="call-actions hidden"><button id="hangupCallButton" type="button" class="call-hangup">Finalizar llamada</button></div>
+  <p class="call-footnote">Tu navegador solicitará permiso para usar el micrófono o la cámara.</p>
+ </div>
+</div>
 <div id="supportPanel" class="support-panel hidden"><div class="support-head"><span>Soporte oficial ESSENZA</span><button id="supportClose" type="button" aria-label="Cerrar">×</button></div><div id="supportLog" class="support-log" aria-live="polite"><div class="chat-bubble">¡Hola! Soy el asistente de ESSENZA. Puedo ayudarte con la plataforma, tus pedidos y preguntas generales.</div></div><div class="support-note">No compartas contraseñas ni códigos de verificación.</div><form id="supportForm" class="support-compose"><textarea id="supportInput" maxlength="1200" placeholder="Escribe tu pregunta..." required></textarea><button type="submit">Enviar</button></form></div>
 <button id="supportLauncher" class="support-fab hidden" type="button">ESSENZA IA</button></section><footer>ESSENZA <span>·</span> GESTIÓN DE PERFUMERÍA</footer></main>
 <script type="module">
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-const SUPABASE_URL="https://ldpuldkxqddgltymnyzo.supabase.co",SUPABASE_KEY="sb_publishable_b00djy5Gg358ITYlJpUvuA_kwr_-dTJ";const $=id=>document.getElementById(id);let sb=null,pendingEmail="",isAdmin=false,recoveryMode=window.location.hash.includes("type=recovery"),currentUser=null,adminId=null,selectedCustomerId=null,messageChannel=null,supportHistory=[];if(SUPABASE_URL.startsWith("https://")&&SUPABASE_KEY.startsWith("sb_publishable_"))sb=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const SUPABASE_URL="https://ldpuldkxqddgltymnyzo.supabase.co",SUPABASE_KEY="sb_publishable_b00djy5Gg358ITYlJpUvuA_kwr_-dTJ";const $=id=>document.getElementById(id);let sb=null,pendingEmail="",isAdmin=false,recoveryMode=window.location.hash.includes("type=recovery"),currentUser=null,adminId=null,selectedCustomerId=null,selectedCustomerEmail="",messageChannel=null,callWatchChannel=null,callChannel=null,activeCall=null,localCallStream=null,peerConnection=null,pendingIceCandidates=[],callTimeout=null,supportHistory=[];if(SUPABASE_URL.startsWith("https://")&&SUPABASE_KEY.startsWith("sb_publishable_"))sb=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 function msg(t,e=false){$("msg").textContent=t;$("msg").classList.toggle("error",e)}function tab(t){["login","signup","verify","reset"].forEach(x=>$(x).classList.toggle("hidden",x!==t));$("lt").classList.toggle("active",t==="login");$("st").classList.toggle("active",t==="signup");msg("")}$("lt").onclick=()=>tab("login");$("st").onclick=()=>tab("signup");$("back").onclick=()=>tab("signup");$("resetBack").onclick=()=>tab("login");
 function ready(){if(!sb){msg("Falta conectar Supabase: configura SUPABASE_URL y SUPABASE_KEY en este archivo.",true);return false}return true}
 $("login").onsubmit=async e=>{e.preventDefault();if(!ready())return;msg("Comprobando tu cuenta…");const{data,error}=await sb.auth.signInWithPassword({email:$("le").value.trim().toLowerCase(),password:$("lp").value});if(error){const detail=error.message==="Invalid login credentials"?"No pudimos iniciar sesión. Revisa el correo y la contraseña. Si olvidaste la contraseña, usa “¿Olvidaste tu contraseña?”. Tu cuenta no se elimina por este intento.":error.message;msg(detail,true);return}if(!data?.session){msg("La cuenta respondió, pero no se creó una sesión. Inténtalo de nuevo.",true);return}await load()};
@@ -77,7 +134,7 @@ async function load(){
  $("admin").classList.toggle("hidden",!isAdmin);$("pending").classList.toggle("hidden",isAdmin);
  if(isAdmin){$("pending").querySelector("h3").textContent="Tu cuenta está lista.";$("pending").querySelector(".muted").textContent="El panel de administración está reservado para la primera cuenta registrada."}else{$("pending").querySelector("h3").textContent="Cuenta de comprador";$("pending").querySelector(".muted").textContent="Tu cuenta está activa. Explora el catálogo, consulta tus pedidos y conversa con ESSENZA desde Mensajes."}
  $("catalogSection").classList.remove("hidden");$("adminInboxSection").classList.toggle("hidden",!isAdmin);$("buyerInboxSection").classList.toggle("hidden",isAdmin);
- await products();await loadOrders();subscribeMessages();
+ await products();await loadOrders();subscribeMessages();subscribeCalls();
 }
 $("pf").onsubmit=async e=>{e.preventDefault();const{data:{user}}=await sb.auth.getUser();const{error}=await sb.from("products").insert({name:$("pn").value.trim(),price:Number($("pp").value),stock:Number($("ps").value),description:$("pd").value.trim(),created_by:user.id});if(error)return alert(error.message);e.target.reset();await products()};
 async function products(){
@@ -119,37 +176,221 @@ function appendChatBubble(container,text,mine,time,label){
  const meta=document.createElement("small");meta.className="chat-meta";meta.textContent=(label?label+" · ":"")+new Date(time).toLocaleString("es-PE",{dateStyle:"short",timeStyle:"short"});
  bubble.append(body,meta);container.append(bubble);
 }
-async function loadMessages(){
+async function loadConversationList(){
  if(!currentUser)return;
- const selector=$("chatCustomerWrap");
- if(isAdmin){
-  selector.classList.remove("hidden");
-  const {data,error}=await sb.from("profiles").select("id,email").eq("role","user").order("email");
-  if(error){$("chatError").textContent="No se pudieron cargar los clientes: "+error.message;return}
-  const select=$("chatCustomer");select.replaceChildren();
-  for(const customer of (data||[])){const option=document.createElement("option");option.value=customer.id;option.textContent=customer.email||"Cliente";select.append(option)}
-  if(selectedCustomerId&&data?.some(x=>x.id===selectedCustomerId))select.value=selectedCustomerId;
-  else selectedCustomerId=select.value||null;
-  select.onchange=()=>{selectedCustomerId=select.value;loadMessages()};
- }else{
-  selector.classList.add("hidden");selectedCustomerId=adminId;
+ const {data,error}=await sb.rpc("get_essenza_conversations");
+ const box=$("chatContacts");box.replaceChildren();
+ if(error){const p=document.createElement("p");p.className="muted";p.textContent="No se pudieron cargar las conversaciones: "+error.message;box.append(p);return}
+ if(!data?.length){const p=document.createElement("p");p.className="muted";p.textContent="Todavía no tienes conversaciones. Busca a alguien por su correo para empezar.";box.append(p);return}
+ for(const contact of data){
+  const button=document.createElement("button");button.type="button";button.className="chat-contact"+(selectedCustomerId===contact.user_id?" active":"");
+  const email=document.createElement("strong");email.textContent=contact.user_email||"Usuario ESSENZA";
+  const preview=document.createElement("small");preview.textContent=contact.last_message||"Conversación privada";
+  button.append(email,preview);button.onclick=()=>openConversation(contact.user_id,contact.user_email);box.append(button);
  }
+}
+async function searchEssenzaUser(email){
+ const results=$("chatSearchResults");results.replaceChildren();
+ const normalized=email.trim().toLowerCase();
+ if(!normalized)return;
+ const {data,error}=await sb.rpc("find_essenza_user_by_email",{p_email:normalized});
+ if(error){results.textContent="No se pudo buscar: "+error.message;return}
+ if(!data?.length){results.textContent="No encontramos una cuenta verificada con ese correo.";return}
+ const user=data[0],button=document.createElement("button");button.type="button";button.className="chat-result";
+ button.textContent="Abrir conversación con "+user.user_email;
+ button.onclick=()=>openConversation(user.user_id,user.user_email);
+ results.append(button);
+}
+async function openConversation(userId,email){
+ if(!userId||userId===currentUser.id)return;
+ selectedCustomerId=userId;selectedCustomerEmail=email||"Usuario ESSENZA";
+ $("chatContactEmail").textContent=selectedCustomerEmail;$("chatPresence").textContent="Conversación privada";
+ $("chatBody").disabled=false;$("chatForm").querySelector("button").disabled=false;
+ $("audioCallButton").disabled=false;$("videoCallButton").disabled=false;
+ $("chatSearchResults").replaceChildren();
+ await loadMessages();await loadConversationList();
+}
+async function loadMessages(){
+ if(!currentUser||!selectedCustomerId)return;
  const windowBox=$("chatWindow");windowBox.replaceChildren();$("chatError").textContent="";
- if(!selectedCustomerId){const p=document.createElement("p");p.className="muted";p.textContent="Todavía no hay una conversación disponible.";windowBox.append(p);return}
  const filter="and(sender_id.eq."+currentUser.id+",recipient_id.eq."+selectedCustomerId+"),and(sender_id.eq."+selectedCustomerId+",recipient_id.eq."+currentUser.id+")";
- const {data,error}=await sb.from("messages").select("id,sender_id,recipient_id,body,created_at").or(filter).order("created_at",{ascending:true});
+ const {data,error}=await sb.from("messages").select("id,sender_id,recipient_id,body,created_at,read_at").or(filter).order("created_at",{ascending:true});
  if(error){$("chatError").textContent="No se pudieron cargar los mensajes: "+error.message;return}
- if(!data?.length){const p=document.createElement("p");p.className="muted";p.textContent="Inicia la conversación escribiendo tu primer mensaje.";windowBox.append(p);return}
- for(const item of data){appendChatBubble(windowBox,item.body,item.sender_id===currentUser.id,item.created_at,item.sender_id===currentUser.id?"Tú":(isAdmin?"Cliente":"ESSENZA"))}
+ if(!data?.length){const p=document.createElement("p");p.className="muted";p.textContent="Esta conversación es privada. Envía el primer mensaje.";windowBox.append(p)}
+ for(const item of (data||[])){appendChatBubble(windowBox,item.body,item.sender_id===currentUser.id,item.created_at,item.sender_id===currentUser.id?"Tú":selectedCustomerEmail)}
  windowBox.scrollTop=windowBox.scrollHeight;
+ const unread=(data||[]).filter(m=>m.sender_id===selectedCustomerId&&!m.read_at).map(m=>m.id);
+ if(unread.length){await sb.from("messages").update({read_at:new Date().toISOString()}).in("id",unread)}
 }
 function subscribeMessages(){
  if(messageChannel)sb.removeChannel(messageChannel);
- messageChannel=sb.channel("essenza-messages-"+currentUser.id).on("postgres_changes",{event:"*",schema:"public",table:"messages"},()=>{if(!$("messagesSection").classList.contains("hidden"))loadMessages()}).subscribe();
+ messageChannel=sb.channel("essenza-messages-"+currentUser.id).on("postgres_changes",{event:"*",schema:"public",table:"messages"},async payload=>{
+  if(payload.new?.recipient_id===currentUser.id&&payload.new?.sender_id!==currentUser.id){/* message is persisted and shown in the recipient's conversation */}
+  await loadConversationList();
+  if(!$("messagesSection").classList.contains("hidden")&&selectedCustomerId)await loadMessages();
+ }).subscribe();
 }
-$("showMessages").onclick=()=>{$("messagesSection").classList.remove("hidden");loadMessages();$("messagesSection").scrollIntoView({behavior:"smooth",block:"start"})};
-$("chatForm").onsubmit=async e=>{e.preventDefault();const body=$("chatBody").value.trim(),recipient=isAdmin?selectedCustomerId:adminId;if(!body||!recipient)return;const{error}=await sb.from("messages").insert({sender_id:currentUser.id,recipient_id:recipient,body});if(error){$("chatError").textContent="No se pudo enviar: "+error.message;return}$("chatBody").value="";await loadMessages()};
+$("chatSearchForm").onsubmit=async e=>{e.preventDefault();await searchEssenzaUser($("chatSearchEmail").value)};
+$("showMessages").onclick=()=>{$("messagesSection").classList.remove("hidden");loadConversationList();$("messagesSection").scrollIntoView({behavior:"smooth",block:"start"})};
+$("chatForm").onsubmit=async e=>{
+ e.preventDefault();const body=$("chatBody").value.trim(),recipient=selectedCustomerId;
+ if(!body||!recipient)return;
+ const{error}=await sb.from("messages").insert({sender_id:currentUser.id,recipient_id:recipient,body});
+ if(error){$("chatError").textContent="No se pudo enviar: "+error.message;return}
+ $("chatBody").value="";await loadMessages();await loadConversationList();
+};
 
+// Llamadas WebRTC 1 a 1: Supabase guarda invitaciones y protege la señalización privada.
+function showCallOverlay(title,status,incoming=false,video=false){
+ $("callTitle").textContent=title;$("callStatus").textContent=status;
+ $("callOverlay").classList.remove("hidden");
+ $("incomingCallActions").classList.toggle("hidden",!incoming);
+ $("activeCallActions").classList.toggle("hidden",incoming);
+ $("callVideoStage").classList.toggle("hidden",!video);
+ $("callCloseButton").classList.toggle("hidden",incoming);
+}
+function hideCallOverlay(){
+ $("callOverlay").classList.add("hidden");
+ $("incomingCallActions").classList.add("hidden");$("activeCallActions").classList.add("hidden");
+ $("callVideoStage").classList.add("hidden");
+}
+function setCallStatusText(value){$("callStatus").textContent=value}
+async function joinPrivateCallChannel(callId){
+ if(callChannel)await sb.removeChannel(callChannel);
+ return await new Promise((resolve,reject)=>{
+  const channel=sb.channel("essenza-call:"+callId,{config:{private:true}})
+   .on("broadcast",{event:"signal"},({payload})=>{void handleCallSignal(payload)});
+  const timeout=setTimeout(()=>{sb.removeChannel(channel);reject(new Error("La conexión privada tardó demasiado."))},12000);
+  channel.subscribe(status=>{
+   if(status==="SUBSCRIBED"){clearTimeout(timeout);callChannel=channel;resolve(channel)}
+   else if(status==="CHANNEL_ERROR"||status==="TIMED_OUT"){clearTimeout(timeout);reject(new Error("No se pudo abrir el canal privado de llamada. Revisa la autorización de Realtime."))}
+  });
+ });
+}
+async function sendCallSignal(payload){
+ if(!callChannel||!activeCall)return;
+ const result=await callChannel.send({type:"broadcast",event:"signal",payload:{...payload,from:currentUser.id}});
+ if(result!=="ok")console.warn("ESSENZA call signal:",result);
+}
+function createCallPeer(){
+ if(peerConnection)return peerConnection;
+ peerConnection=new RTCPeerConnection({iceServers:[
+  {urls:"stun:stun.l.google.com:19302"},
+  {urls:"stun:stun1.l.google.com:19302"}
+ ]});
+ for(const track of (localCallStream?.getTracks()||[]))peerConnection.addTrack(track,localCallStream);
+ peerConnection.onicecandidate=event=>{if(event.candidate)void sendCallSignal({kind:"ice",candidate:event.candidate.toJSON()})};
+ peerConnection.ontrack=event=>{
+  const stream=event.streams?.[0];if(!stream)return;
+  if(activeCall?.callType==="video"){$("remoteVideo").srcObject=stream;$("remoteVideo").play().catch(()=>{})}
+  else{$("remoteAudio").srcObject=stream;$("remoteAudio").play().catch(()=>{})}
+ };
+ peerConnection.onconnectionstatechange=()=>{
+  if(!peerConnection)return;
+  if(peerConnection.connectionState==="connected")setCallStatusText("Conectados");
+  if(["failed","disconnected"].includes(peerConnection.connectionState))setCallStatusText("La conexión se interrumpió. Intentando recuperar…");
+ };
+ return peerConnection;
+}
+async function flushPendingIce(){
+ if(!peerConnection?.remoteDescription)return;
+ for(const candidate of pendingIceCandidates){try{await peerConnection.addIceCandidate(candidate)}catch(e){console.warn("ICE candidate:",e)}}
+ pendingIceCandidates=[];
+}
+async function createCallOffer(){
+ if(!activeCall?.caller||activeCall.offerSent)return;
+ const pc=createCallPeer();const offer=await pc.createOffer();await pc.setLocalDescription(offer);
+ activeCall.offerSent=true;await sendCallSignal({kind:"offer",description:pc.localDescription});
+ setCallStatusText("Estableciendo conexión segura…");
+}
+async function handleCallSignal(payload){
+ if(!payload||payload.from===currentUser?.id||!activeCall)return;
+ try{
+  if(payload.kind==="ready"&&activeCall.caller){activeCall.accepted=true;await createCallOffer()}
+  else if(payload.kind==="offer"&&activeCall.incoming&&activeCall.accepted){
+   const pc=createCallPeer();await pc.setRemoteDescription(payload.description);await flushPendingIce();
+   const answer=await pc.createAnswer();await pc.setLocalDescription(answer);
+   await sendCallSignal({kind:"answer",description:pc.localDescription});setCallStatusText("Conectando audio y vídeo…");
+  }else if(payload.kind==="answer"&&activeCall.caller){
+   await peerConnection.setRemoteDescription(payload.description);await flushPendingIce();setCallStatusText("Conectando audio y vídeo…");
+  }else if(payload.kind==="ice"&&payload.candidate){
+   const candidate=new RTCIceCandidate(payload.candidate);
+   if(peerConnection?.remoteDescription)await peerConnection.addIceCandidate(candidate);else pendingIceCandidates.push(candidate);
+  }else if(payload.kind==="end"){await cleanupCall(false);$("chatError").textContent="La otra persona finalizó la llamada."}
+ }catch(error){console.error("ESSENZA WebRTC:",error);setCallStatusText("No se pudo establecer la llamada: "+error.message)}
+}
+async function cleanupCall(removeServer=false){
+ const call=activeCall;
+ if(callTimeout){clearTimeout(callTimeout);callTimeout=null}
+ if(removeServer&&call?.id){
+  try{await sb.rpc("set_essenza_call_status",{p_call_id:call.id,p_status:call.caller&&!call.accepted?"cancelled":"ended"})}catch{}
+ }
+ if(callChannel){await sb.removeChannel(callChannel);callChannel=null}
+ if(peerConnection){peerConnection.ontrack=null;peerConnection.onicecandidate=null;peerConnection.close();peerConnection=null}
+ if(localCallStream){localCallStream.getTracks().forEach(track=>track.stop());localCallStream=null}
+ $("remoteVideo").srcObject=null;$("localVideo").srcObject=null;$("remoteAudio").srcObject=null;
+ activeCall=null;pendingIceCandidates=[];hideCallOverlay();
+}
+async function startOutgoingCall(type){
+ if(!selectedCustomerId||activeCall)return;
+ if(!navigator.mediaDevices?.getUserMedia||!window.RTCPeerConnection){$("chatError").textContent="Este navegador no permite llamadas WebRTC. Usa una versión actual de Chrome, Edge o Safari mediante HTTPS.";return}
+ try{
+  $("audioCallButton").disabled=true;$("videoCallButton").disabled=true;
+  localCallStream=await navigator.mediaDevices.getUserMedia({audio:true,video:type==="video"});
+  $("localVideo").srcObject=localCallStream;$("callVideoStage").classList.toggle("hidden",type!=="video");
+  const {data,error}=await sb.from("call_sessions").insert({caller_id:currentUser.id,callee_id:selectedCustomerId,call_type:type}).select("id").single();
+  if(error)throw error;
+  activeCall={id:data.id,caller:true,incoming:false,accepted:false,offerSent:false,callType:type,partnerId:selectedCustomerId,partnerEmail:selectedCustomerEmail};
+  showCallOverlay(type==="video"?"Videollamando a "+selectedCustomerEmail:"Llamando a "+selectedCustomerEmail,"Esperando respuesta…",false,type==="video");
+  await joinPrivateCallChannel(activeCall.id);await sendCallSignal({kind:"ready"});
+  callTimeout=setTimeout(async()=>{if(activeCall?.id===data.id&&!activeCall.accepted){await cleanupCall(true);$("chatError").textContent="No hubo respuesta a la llamada."}},45000);
+ }catch(error){await cleanupCall(true);$("chatError").textContent="No se pudo iniciar la llamada: "+(error.message||"Comprueba los permisos del micrófono y la cámara.")}finally{$("audioCallButton").disabled=!selectedCustomerId;$("videoCallButton").disabled=!selectedCustomerId}
+}
+async function receiveIncomingCall(row){
+ if(activeCall){await sb.rpc("set_essenza_call_status",{p_call_id:row.id,p_status:"declined"});return}
+ const {data:contact}=await sb.rpc("get_essenza_call_contact",{p_call_id:row.id});
+ activeCall={id:row.id,caller:false,incoming:true,accepted:false,offerSent:false,callType:row.call_type,partnerId:row.caller_id,partnerEmail:contact?.[0]?.user_email||"Usuario ESSENZA"};
+ showCallOverlay((row.call_type==="video"?"Videollamada de ":"Llamada de voz de ")+activeCall.partnerEmail,"Te está llamando…",true,row.call_type==="video");
+ try{await joinPrivateCallChannel(row.id)}catch(error){$("callStatus").textContent=error.message}
+}
+async function acceptIncomingCall(){
+ if(!activeCall?.incoming)return;
+ try{
+  localCallStream=await navigator.mediaDevices.getUserMedia({audio:true,video:activeCall.callType==="video"});
+  $("localVideo").srcObject=localCallStream;
+  const {error}=await sb.rpc("set_essenza_call_status",{p_call_id:activeCall.id,p_status:"accepted"});
+  if(error)throw error;
+  activeCall.accepted=true;$("incomingCallActions").classList.add("hidden");$("activeCallActions").classList.remove("hidden");$("callCloseButton").classList.add("hidden");
+  setCallStatusText("Conectando con "+activeCall.partnerEmail+"…");await sendCallSignal({kind:"ready"});
+ }catch(error){$("callStatus").textContent="No se pudo aceptar: "+(error.message||"revisa los permisos de cámara y micrófono");}
+}
+async function declineIncomingCall(){
+ if(!activeCall?.incoming)return;
+ const id=activeCall.id;await sb.rpc("set_essenza_call_status",{p_call_id:id,p_status:"declined"});await sendCallSignal({kind:"end"});await cleanupCall(false);
+}
+async function endCurrentCall(){
+ if(!activeCall)return;
+ await sendCallSignal({kind:"end"});await cleanupCall(true);
+}
+function subscribeCalls(){
+ if(callWatchChannel)sb.removeChannel(callWatchChannel);
+ callWatchChannel=sb.channel("essenza-call-invitations-"+currentUser.id)
+  .on("postgres_changes",{event:"INSERT",schema:"public",table:"call_sessions"},payload=>{
+   const row=payload.new;if(row?.callee_id===currentUser.id&&row.status==="ringing")void receiveIncomingCall(row);
+  })
+  .on("postgres_changes",{event:"UPDATE",schema:"public",table:"call_sessions"},payload=>{
+   const row=payload.new;if(activeCall?.id===row?.id&&["declined","cancelled","ended"].includes(row.status)){
+    const note=row.status==="declined"?"La otra persona rechazó la llamada.":row.status==="cancelled"?"La llamada fue cancelada.":"La llamada terminó.";
+    void cleanupCall(false);$("chatError").textContent=note;
+   }
+  }).subscribe();
+}
+$("audioCallButton").onclick=()=>startOutgoingCall("audio");
+$("videoCallButton").onclick=()=>startOutgoingCall("video");
+$("acceptCallButton").onclick=acceptIncomingCall;
+$("declineCallButton").onclick=declineIncomingCall;
+$("hangupCallButton").onclick=endCurrentCall;
+$("callCloseButton").onclick=()=>{if(activeCall?.caller)void cleanupCall(true)};
 // Calculadora segura para operaciones aritméticas sencillas, sin eval().
 function calculateMath(raw){
  let source=raw.toLowerCase().replace(/cu[aá]nto es|cu[aá]nto da|calcula|resuelve|resultado de/g,"").replace(/[?=]/g,"").trim();
