@@ -47,8 +47,9 @@ async function loadOrders(){
  const {data,error}=await sb.from("orders").select("id,buyer_id,buyer_email,product_name,unit_price,quantity,status,created_at").order("created_at",{ascending:false});
  const target=$(isAdmin?"adminOrders":"buyerOrders");target.replaceChildren();
  if(error){target.textContent="No se pudieron cargar los pedidos: "+error.message;return}
- if(!data.length){const p=document.createElement("p");p.className="muted";p.textContent=isAdmin?"Todavía no hay solicitudes.":"Todavía no has realizado pedidos.";target.append(p);return}
- for(const order of data){
+ const visibleOrders=isAdmin?data.filter(order=>order.status!=="completed"):data;
+ if(!visibleOrders.length){const p=document.createElement("p");p.className="muted";p.textContent=isAdmin?"No tienes solicitudes pendientes.":"Todavía no has realizado pedidos.";target.append(p);return}
+ for(const order of visibleOrders){
   const card=document.createElement("article"),h=document.createElement("h4"),details=document.createElement("p"),state=document.createElement("p");card.className="inbox-card";h.textContent=order.product_name;details.textContent="Cantidad: "+order.quantity+" · Total: S/ "+(Number(order.unit_price)*order.quantity).toFixed(2)+(isAdmin?" · Comprador: "+order.buyer_email:"");state.className="status";state.textContent=order.status==="completed"?"Tu pedido está listo":order.status==="in_progress"?(isAdmin?"Pedido en preparación":"Estamos preparando tu pedido"):(isAdmin?"Nuevo pedido":"Solicitud enviada");card.append(h,details,state);
   if(isAdmin&&order.status!=="completed"){const b=document.createElement("button");b.className="primary";b.textContent=order.status==="pending"?"Iniciar":"Terminar";b.onclick=()=>changeOrderStatus(order.id,order.status==="pending"?"in_progress":"completed");card.append(b)}
   if(!isAdmin&&order.status==="completed"){const ready=document.createElement("p");ready.textContent="¡Tu pedido está listo!";card.append(ready)}target.append(card)
