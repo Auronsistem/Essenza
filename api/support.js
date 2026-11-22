@@ -20,7 +20,7 @@ module.exports = async function handler(req, res) {
     return res.status(403).json({ error: "Origen no permitido." });
   }
 
-  const bearer = String(req.headers.authorization || "").match(/^Bearer\\s+(.+)$/i);
+  const bearer = String(req.headers.authorization || "").match(/^Bearer\s+(.+)$/i);
   if (!bearer) return res.status(401).json({ error: "Inicia sesión para usar el soporte." });
 
   try {
