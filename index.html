@@ -2,7 +2,27 @@
 <html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#11100f"><title>ESSENZA</title>
 <style>
 :root{--bg:#11100f;--panel:#1b1917;--gold:#c9a66b;--gold2:#e3c58f;--text:#f5f0e8;--muted:#a9a197;--line:#39332b;--danger:#f19a8d}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 15%,#30271d 0,transparent 35%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;min-height:100vh}.shell{max-width:1120px;margin:auto;padding:30px 28px 20px}.brand{display:flex;align-items:center;gap:13px;margin-bottom:42px}.mark{width:46px;height:46px;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold2);font:18px Georgia}.brand h1{font-size:17px;letter-spacing:5px;margin:0;font-weight:600}.eyebrow{font-size:9px;letter-spacing:2.4px;color:var(--gold);font-weight:700;margin:0 0 9px}.layout{display:grid;grid-template-columns:1fr 430px;gap:70px;align-items:center;min-height:560px}.intro h2{font:500 clamp(46px,6vw,76px)/.98 Georgia,serif;letter-spacing:-2px;margin:0 0 20px}.intro h2 em{color:var(--gold2);font-weight:400}.muted{color:var(--muted);line-height:1.65}.bottle{height:160px;width:125px;margin:36px auto 0;border:1px solid #b99a69;border-radius:16px 16px 24px 24px;background:linear-gradient(110deg,#6c5334,#c4a06b 48%,#5b442d);display:grid;place-items:center;color:#211a12;font:22px Georgia;letter-spacing:5px;position:relative;box-shadow:0 18px 30px #0008}.bottle:before{content:"";position:absolute;top:-27px;width:44px;height:27px;background:linear-gradient(90deg,#8c6c3e,#e0c18a,#8c6c3e);border-radius:4px 4px 0 0}.card{background:linear-gradient(145deg,#211f1c,#171615);border:1px solid var(--line);padding:28px;border-radius:5px;box-shadow:0 24px 70px #0005;min-height:430px;display:flex;flex-direction:column}.card .form{width:100%}.tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);margin-bottom:28px}.tab{border:0;background:none;color:var(--muted);padding:13px 5px;cursor:pointer;border-bottom:2px solid transparent}.tab.active{color:var(--gold2);border-color:var(--gold)}h3{font:26px Georgia,serif;margin:0 0 24px}.form label,.product-form label{display:block;color:#d7cfc3;font-size:12px;margin:0 0 17px}.form input,.product-form input{display:block;width:100%;margin-top:8px;background:#11100f;border:1px solid #403a32;color:var(--text);padding:14px 13px;border-radius:3px;outline:none;font:14px inherit}.form input:focus,.product-form input:focus{border-color:var(--gold)}button{cursor:pointer}.primary{width:100%;border:0;background:linear-gradient(100deg,#b18b52,#dfc18b);color:#19140e;padding:15px 17px;font-weight:750;border-radius:3px;margin-top:5px}.primary span{float:right;font-size:18px}.hint,.small{font-size:11px}.hint{color:#938a7f;line-height:1.5;margin:15px 0 0}.hidden{display:none!important}.message{min-height:20px;margin-top:auto;padding-top:13px;color:var(--gold2);font-size:12px;line-height:1.5}.message.error{color:var(--danger)}.text-button,.back{border:0;background:none;color:var(--gold2);padding:16px 0 0;font-size:12px}.back{padding:0 0 18px}.dashboard{min-height:560px}.dash-top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px}.dash-top h2{font:36px Georgia;margin:0}.outline{background:transparent;border:1px solid var(--line);color:var(--text);padding:11px 16px}.welcome{padding:25px 28px;background:linear-gradient(105deg,#292219,#1b1917);border:1px solid #59462d;margin-bottom:35px}.welcome h3{margin:0 0 6px}.product-form{display:grid;grid-template-columns:repeat(3,1fr);gap:0 15px;padding:22px;background:var(--panel);border:1px solid var(--line)}.wide{grid-column:1/-1}.section{display:flex;align-items:end;justify-content:space-between;margin:28px 0 15px}.section h3{margin:0}.products{display:grid;gap:10px}.item{display:flex;justify-content:space-between;gap:15px;padding:17px 19px;background:var(--panel);border:1px solid var(--line)}.item h4{margin:0 0 5px}.item p{margin:0;color:var(--muted);font-size:12px}.price{color:var(--gold2);font-weight:700;white-space:nowrap}footer{text-align:center;color:#766f65;font-size:10px;letter-spacing:1.5px;padding:25px 0 5px}@media(max-width:800px){.layout{grid-template-columns:1fr;gap:20px}.intro{min-height:240px}.intro h2{font-size:54px}.bottle{position:absolute;right:25px;top:100px;transform:scale(.72);opacity:.75}.card{max-width:520px;width:100%;margin:auto}.shell{padding:22px 17px}.product-form{grid-template-columns:1fr}.wide{grid-column:auto}}@media(max-width:420px){.intro h2{font-size:45px}.dash-top h2{font-size:28px}}
-.catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.perfume-card,.inbox-card{background:var(--panel);border:1px solid var(--line);padding:18px;border-radius:4px}.perfume-card h4,.inbox-card h4{margin:0 0 8px}.perfume-card p,.inbox-card p{color:var(--muted);font-size:12px;line-height:1.5}.perfume-card .primary{margin-top:12px}.inbox{display:grid;gap:10px}.status{color:var(--gold2);font-size:12px;font-weight:700}.section-title{margin:35px 0 15px;font:26px Georgia}.quantity{max-width:100px;background:#11100f;color:var(--text);border:1px solid var(--line);padding:9px}@media(max-width:800px){.catalog-grid{grid-template-columns:1fr}} </style></head><body><main class="shell">
+.catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.perfume-card,.inbox-card{background:var(--panel);border:1px solid var(--line);padding:18px;border-radius:4px}.perfume-card h4,.inbox-card h4{margin:0 0 8px}.perfume-card p,.inbox-card p{color:var(--muted);font-size:12px;line-height:1.5}.perfume-card .primary{margin-top:12px}.inbox{display:grid;gap:10px}.status{color:var(--gold2);font-size:12px;font-weight:700}.section-title{margin:35px 0 15px;font:26px Georgia}.quantity{max-width:100px;background:#11100f;color:var(--text);border:1px solid var(--line);padding:9px}@media(max-width:800px){.catalog-grid{grid-template-columns:1fr}}
+.dash-actions{display:flex;gap:10px;flex-wrap:wrap;margin:-8px 0 24px}
+.chat-wrap{background:var(--panel);border:1px solid var(--line);padding:16px;border-radius:4px}
+.chat-window{height:300px;max-height:48vh;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:4px 2px 14px}
+.chat-bubble{max-width:min(82%,560px);padding:11px 13px;border:1px solid var(--line);background:#24211d;border-radius:12px 12px 12px 3px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.5}
+.chat-bubble.mine{align-self:flex-end;background:#443522;border-color:#80623a;border-radius:12px 12px 3px 12px}
+.chat-meta{display:block;margin-top:5px;color:#b9aa93;font-size:10px}
+.chat-compose{display:flex;gap:10px;align-items:end;margin-top:12px}
+.chat-compose textarea{flex:1;min-height:54px;resize:vertical;background:#11100f;color:var(--text);border:1px solid var(--line);padding:12px;font:14px inherit}
+.chat-compose .primary{width:auto;min-width:112px;margin:0}
+.chat-select{width:100%;max-width:380px;background:#11100f;color:var(--text);border:1px solid var(--line);padding:11px;margin:8px 0 14px}
+.support-fab{position:fixed;right:22px;bottom:22px;z-index:20;border:1px solid #e3c58f;background:linear-gradient(100deg,#b18b52,#dfc18b);color:#19140e;padding:14px 18px;border-radius:28px;font-weight:800;box-shadow:0 8px 30px #0008}
+.support-panel{position:fixed;right:22px;bottom:82px;width:min(390px,calc(100vw - 28px));height:min(520px,calc(100vh - 115px));z-index:21;background:#1b1917;border:1px solid #80623a;box-shadow:0 20px 60px #000b;display:flex;flex-direction:column;border-radius:8px;overflow:hidden}
+.support-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);font:18px Georgia;color:var(--gold2)}
+.support-head button{background:none;border:0;color:var(--text);font-size:22px}
+.support-log{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.support-note{font-size:10px;color:var(--muted);padding:0 14px 8px}
+.support-compose{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
+.support-compose textarea{flex:1;min-width:0;min-height:48px;max-height:100px;resize:vertical;background:#11100f;color:var(--text);border:1px solid var(--line);padding:10px;font:13px inherit}
+.support-compose button{border:0;background:var(--gold);color:#19140e;padding:0 13px;font-weight:800}
+@media(max-width:520px){.dash-actions .outline{flex:1}.chat-compose{flex-direction:column;align-items:stretch}.chat-compose .primary{width:100%}.support-fab{right:14px;bottom:14px}.support-panel{right:8px;bottom:72px;width:calc(100vw - 16px);height:min(540px,calc(100vh - 88px))}} </style></head><body><main class="shell">
 <header class="brand"><div class="mark">E</div><div><p class="eyebrow">ESENCIA · ESTILO · DISTINCIÓN</p><h1>ESSENZA</h1></div></header>
 <section id="auth" class="layout"><div class="intro"><p class="eyebrow">BIENVENIDO</p><h2>Tu mundo,<br><em>tu esencia.</em></h2><p class="muted">Tu espacio para administrar tu catálogo de perfumes.</p><div class="bottle">E</div></div>
 <div class="card"><div class="tabs"><button class="tab active" id="lt">Iniciar sesión</button><button class="tab" id="st">Crear cuenta</button></div>
@@ -10,20 +30,50 @@
 <form id="signup" class="form hidden"><h3>Crea tu cuenta</h3><label>Correo electrónico<input id="se" type="email" placeholder="tu@gmail.com" autocomplete="email" required></label><label>Contraseña<input id="sp" type="password" placeholder="Crea una contraseña" minlength="8" autocomplete="new-password" required></label><button class="primary">Enviar código de verificación <span>→</span></button><p class="hint">Te enviaremos un código a tu correo para activar la cuenta.</p></form>
 <form id="reset" class="form hidden"><button class="back" type="button" id="resetBack">← Volver</button><h3>Crea una contraseña nueva</h3><p class="muted small">Escribe tu nueva contraseña para recuperar el acceso a ESSENZA.</p><label>Nueva contraseña<input id="rp" type="password" minlength="8" autocomplete="new-password" required></label><button class="primary">Guardar contraseña <span>→</span></button></form>
 <form id="verify" class="form hidden"><button class="back" type="button" id="back">← Volver</button><h3>Verifica tu correo</h3><p class="muted small">Código enviado a <strong id="ve"></strong></p><label>Código de verificación<input id="vc" type="text" inputmode="numeric" autocomplete="one-time-code" minlength="6" maxlength="6" pattern="[0-9]{6}" placeholder="000000" required></label><button class="primary">Verificar y entrar <span>→</span></button><button class="text-button" type="button" id="resend">Reenviar código</button></form><div id="msg" class="message" role="status"></div></div></section>
-<section id="dash" class="dashboard hidden"><div class="dash-top"><div><p class="eyebrow">ESPACIO DE TRABAJO</p><h2>Panel ESSENZA</h2><p id="email" class="muted small"></p></div><button id="logout" class="outline">Cerrar sesión</button></div><div id="admin" class="hidden"><div class="welcome"><p class="eyebrow">ADMINISTRADOR PRINCIPAL</p><h3>Tu catálogo comienza aquí.</h3><p class="muted">Registra tus perfumes y organiza el stock.</p></div><div class="section"><h3>Registrar producto</h3></div><form id="pf" class="product-form"><label>Nombre del perfume<input id="pn" required></label><label>Precio (S/)<input id="pp" type="number" min="0" step=".01" required></label><label>Stock disponible<input id="ps" type="number" min="0" step="1" required></label><label class="wide">Descripción<input id="pd" placeholder="Marca, tamaño, aroma u otros detalles"></label><button class="primary wide">Guardar producto ＋</button></form><div class="section"><h3>Tus productos</h3><span id="count" class="muted small">0 productos</span></div><div id="products" class="products"><p class="muted">Todavía no hay perfumes registrados.</p></div></div><div id="pending" class="welcome hidden"><p class="eyebrow">CUENTA CREADA</p><h3>Tu cuenta está lista.</h3><p class="muted">El panel de administración está reservado para la primera cuenta registrada.</p></div><div id="catalogSection" class="hidden"><h3 class="section-title">Catálogo de perfumes</h3><p class="muted small">Explora los perfumes disponibles y solicita el que quieras.</p><div id="catalog" class="catalog-grid"></div></div><div id="adminInboxSection" class="hidden"><h3 class="section-title">Bandeja de solicitudes</h3><div id="adminOrders" class="inbox"><p class="muted">Todavía no hay solicitudes.</p></div></div><div id="buyerInboxSection" class="hidden"><h3 class="section-title">Mis pedidos</h3><div id="buyerOrders" class="inbox"><p class="muted">Todavía no has realizado pedidos.</p></div></div></section><footer>ESSENZA <span>·</span> GESTIÓN DE PERFUMERÍA</footer></main>
+<section id="dash" class="dashboard hidden"><div class="dash-top"><div><p class="eyebrow">ESPACIO DE TRABAJO</p><h2>Panel ESSENZA</h2><p id="email" class="muted small"></p></div><button id="logout" class="outline">Cerrar sesión</button></div><div class="dash-actions"><button id="showMessages" class="outline" type="button">Mensajes</button><button id="showSupport" class="outline" type="button">Soporte oficial IA</button></div><div id="admin" class="hidden"><div class="welcome"><p class="eyebrow">ADMINISTRADOR PRINCIPAL</p><h3>Tu catálogo comienza aquí.</h3><p class="muted">Registra tus perfumes y organiza el stock.</p></div><div class="section"><h3>Registrar producto</h3></div><form id="pf" class="product-form"><label>Nombre del perfume<input id="pn" required></label><label>Precio (S/)<input id="pp" type="number" min="0" step=".01" required></label><label>Stock disponible<input id="ps" type="number" min="0" step="1" required></label><label class="wide">Descripción<input id="pd" placeholder="Marca, tamaño, aroma u otros detalles"></label><button class="primary wide">Guardar producto ＋</button></form><div class="section"><h3>Tus productos</h3><span id="count" class="muted small">0 productos</span></div><div id="products" class="products"><p class="muted">Todavía no hay perfumes registrados.</p></div></div><div id="pending" class="welcome hidden"><p class="eyebrow">CUENTA CREADA</p><h3>Tu cuenta está lista.</h3><p class="muted">El panel de administración está reservado para la primera cuenta registrada.</p></div><div id="catalogSection" class="hidden"><h3 class="section-title">Catálogo de perfumes</h3><p class="muted small">Explora los perfumes disponibles y solicita el que quieras.</p><div id="catalog" class="catalog-grid"></div></div><div id="adminInboxSection" class="hidden"><h3 class="section-title">Bandeja de solicitudes</h3><div id="adminOrders" class="inbox"><p class="muted">Todavía no hay solicitudes.</p></div></div><div id="buyerInboxSection" class="hidden"><h3 class="section-title">Mis pedidos</h3><div id="buyerOrders" class="inbox"><p class="muted">Todavía no has realizado pedidos.</p></div></div>
+<div id="messagesSection" class="hidden"><h3 class="section-title">Mensajes</h3><div class="chat-wrap">
+<div id="chatCustomerWrap" class="hidden"><label for="chatCustomer" class="muted small">Conversación con cliente</label><select id="chatCustomer" class="chat-select"></select></div>
+<div id="chatWindow" class="chat-window" aria-live="polite"><p class="muted">Tus mensajes aparecerán aquí.</p></div>
+<form id="chatForm" class="chat-compose"><textarea id="chatBody" maxlength="4000" placeholder="Escribe un mensaje..." required></textarea><button class="primary" type="submit">Enviar</button></form>
+<div id="chatError" class="message" role="status"></div></div></div>
+<div id="supportPanel" class="support-panel hidden"><div class="support-head"><span>Soporte oficial ESSENZA</span><button id="supportClose" type="button" aria-label="Cerrar">×</button></div><div id="supportLog" class="support-log" aria-live="polite"><div class="chat-bubble">¡Hola! Soy el asistente de ESSENZA. Puedo ayudarte con la plataforma, tus pedidos y preguntas generales.</div></div><div class="support-note">No compartas contraseñas ni códigos de verificación.</div><form id="supportForm" class="support-compose"><textarea id="supportInput" maxlength="1200" placeholder="Escribe tu pregunta..." required></textarea><button type="submit">Enviar</button></form></div>
+<button id="supportLauncher" class="support-fab hidden" type="button">ESSENZA IA</button></section><footer>ESSENZA <span>·</span> GESTIÓN DE PERFUMERÍA</footer></main>
 <script type="module">
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-const SUPABASE_URL="https://ldpuldkxqddgltymnyzo.supabase.co",SUPABASE_KEY="sb_publishable_b00djy5Gg358ITYlJpUvuA_kwr_-dTJ";const $=id=>document.getElementById(id);let sb=null,pendingEmail="",isAdmin=false,recoveryMode=window.location.hash.includes("type=recovery");if(SUPABASE_URL.startsWith("https://")&&SUPABASE_KEY.startsWith("sb_publishable_"))sb=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const SUPABASE_URL="https://ldpuldkxqddgltymnyzo.supabase.co",SUPABASE_KEY="sb_publishable_b00djy5Gg358ITYlJpUvuA_kwr_-dTJ";const $=id=>document.getElementById(id);let sb=null,pendingEmail="",isAdmin=false,recoveryMode=window.location.hash.includes("type=recovery"),currentUser=null,adminId=null,selectedCustomerId=null,messageChannel=null,supportHistory=[];if(SUPABASE_URL.startsWith("https://")&&SUPABASE_KEY.startsWith("sb_publishable_"))sb=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 function msg(t,e=false){$("msg").textContent=t;$("msg").classList.toggle("error",e)}function tab(t){["login","signup","verify","reset"].forEach(x=>$(x).classList.toggle("hidden",x!==t));$("lt").classList.toggle("active",t==="login");$("st").classList.toggle("active",t==="signup");msg("")}$("lt").onclick=()=>tab("login");$("st").onclick=()=>tab("signup");$("back").onclick=()=>tab("signup");$("resetBack").onclick=()=>tab("login");
 function ready(){if(!sb){msg("Falta conectar Supabase: configura SUPABASE_URL y SUPABASE_KEY en este archivo.",true);return false}return true}
-$("login").onsubmit=async e=>{e.preventDefault();if(!ready())return;msg("Iniciando sesión…");const{error}=await sb.auth.signInWithPassword({email:$("le").value.trim(),password:$("lp").value});if(error)msg(error.message==="Invalid login credentials"?"Invalid login credentials":error.message,true);else await load()};
+$("login").onsubmit=async e=>{e.preventDefault();if(!ready())return;msg("Comprobando tu cuenta…");const{data,error}=await sb.auth.signInWithPassword({email:$("le").value.trim().toLowerCase(),password:$("lp").value});if(error){const detail=error.message==="Invalid login credentials"?"No pudimos iniciar sesión. Revisa el correo y la contraseña. Si olvidaste la contraseña, usa “¿Olvidaste tu contraseña?”. Tu cuenta no se elimina por este intento.":error.message;msg(detail,true);return}if(!data?.session){msg("La cuenta respondió, pero no se creó una sesión. Inténtalo de nuevo.",true);return}await load()};
 $("signup").onsubmit=async e=>{e.preventDefault();if(!ready())return;if($("sp").value.length<8)return msg("La contraseña debe tener al menos 8 caracteres.",true);pendingEmail=$("se").value.trim();msg("Enviando código…");const{error}=await sb.auth.signUp({email:pendingEmail,password:$("sp").value});if(error)return msg(error.message,true);$("ve").textContent=pendingEmail;tab("verify");msg("Revisa tu correo e introduce el código.")};
 $("verify").onsubmit=async e=>{e.preventDefault();if(!ready())return;const code=$("vc").value.trim();if(!/^\d{6}$/.test(code))return msg("El código debe tener exactamente 6 dígitos.",true);const{error}=await sb.auth.verifyOtp({email:pendingEmail,token:code,type:"signup"});if(error)msg(error.message,true);else await load()};
 $("forgot").onclick=async()=>{if(!ready())return;const email=$("le").value.trim();if(!email)return msg("Escribe primero tu correo electrónico para enviarte el enlace de recuperación.",true);msg("Enviando enlace de recuperación…");const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+window.location.pathname});msg(error?error.message:"Si el correo está registrado, recibirás un enlace para crear una contraseña nueva.",!!error)};
 $("reset").onsubmit=async e=>{e.preventDefault();if(!ready())return;const password=$("rp").value;if(password.length<8)return msg("La contraseña debe tener al menos 8 caracteres.",true);msg("Actualizando contraseña…");const{error}=await sb.auth.updateUser({password});if(error)return msg(error.message,true);$("rp").value="";msg("Contraseña actualizada. Ya puedes entrar con tu nueva contraseña.");tab("login")};
 $("resend").onclick=async()=>{if(!ready())return;const{error}=await sb.auth.resend({type:"signup",email:pendingEmail});msg(error?error.message:"Código nuevo enviado. Utiliza el más reciente.",!!error)};
-$("logout").onclick=async()=>{await sb.auth.signOut();$("dash").classList.add("hidden");$("auth").classList.remove("hidden");tab("login")};
-async function load(){const{data:{user}}=await sb.auth.getUser();if(!user)return;$("auth").classList.add("hidden");$("dash").classList.remove("hidden");$("email").textContent=user.email||"";const{data:p,error}=await sb.from("profiles").select("role").eq("id",user.id).single();if(error){$("pending").classList.remove("hidden");$("admin").classList.add("hidden");return}const yes=p.role==="admin";isAdmin=yes;$("admin").classList.toggle("hidden",!yes);$("pending").classList.toggle("hidden",yes);$("catalogSection").classList.remove("hidden");$("adminInboxSection").classList.toggle("hidden",!yes);$("buyerInboxSection").classList.toggle("hidden",yes);await products();await loadOrders()}
+$("logout").onclick=async()=>{const{error}=await sb.auth.signOut({scope:"local"});if(error){alert("No se pudo cerrar la sesión: "+error.message);return}currentUser=null;isAdmin=false;adminId=null;selectedCustomerId=null;supportHistory=[];$("dash").classList.add("hidden");$("supportLauncher").classList.add("hidden");$("auth").classList.remove("hidden");$("lp").value="";tab("login")};
+async function load(){
+ const {data:{session},error:sessionError}=await sb.auth.getSession();
+ if(sessionError){msg("No se pudo comprobar la sesión: "+sessionError.message,true);return}
+ if(!session){currentUser=null;$("dash").classList.add("hidden");$("supportLauncher").classList.add("hidden");$("auth").classList.remove("hidden");return}
+ currentUser=session.user;
+ $("auth").classList.add("hidden");$("dash").classList.remove("hidden");$("supportLauncher").classList.remove("hidden");$("email").textContent=currentUser.email||"";
+ const {data:p,error}=await sb.from("profiles").select("role").eq("id",currentUser.id).maybeSingle();
+ if(error||!p){
+  $("admin").classList.add("hidden");$("pending").classList.remove("hidden");$("catalogSection").classList.add("hidden");$("adminInboxSection").classList.add("hidden");$("buyerInboxSection").classList.add("hidden");$("messagesSection").classList.add("hidden");
+  $("pending").querySelector("h3").textContent="No pudimos cargar tu perfil";
+  $("pending").querySelector(".muted").textContent="Tu cuenta de acceso sí está registrada. No se ha borrado. No pudimos leer su perfil; vuelve a iniciar sesión y, si continúa, contacta al soporte.";
+  $("supportLauncher").classList.remove("hidden");return;
+ }
+ isAdmin=p.role==="admin";
+ if(isAdmin){adminId=currentUser.id}
+ else{
+  const {data:adminProfile}=await sb.from("profiles").select("id").eq("role","admin").limit(1).maybeSingle();
+  adminId=adminProfile?.id||null;
+ }
+ $("admin").classList.toggle("hidden",!isAdmin);$("pending").classList.toggle("hidden",isAdmin);
+ if(isAdmin){$("pending").querySelector("h3").textContent="Tu cuenta está lista.";$("pending").querySelector(".muted").textContent="El panel de administración está reservado para la primera cuenta registrada."}
+ $("catalogSection").classList.remove("hidden");$("adminInboxSection").classList.toggle("hidden",!isAdmin);$("buyerInboxSection").classList.toggle("hidden",isAdmin);
+ await products();await loadOrders();subscribeMessages();
+}
 $("pf").onsubmit=async e=>{e.preventDefault();const{data:{user}}=await sb.auth.getUser();const{error}=await sb.from("products").insert({name:$("pn").value.trim(),price:Number($("pp").value),stock:Number($("ps").value),description:$("pd").value.trim(),created_by:user.id});if(error)return alert(error.message);e.target.reset();await products()};
 async function products(){
  const {data,error}=await sb.from("products").select("id,name,price,stock,description").order("created_at",{ascending:false});
@@ -56,5 +106,83 @@ async function loadOrders(){
  }
 }
 async function changeOrderStatus(id,status){const {error}=await sb.from("orders").update({status,updated_at:new Date().toISOString()}).eq("id",id);if(error)return alert("No se pudo actualizar el pedido: "+error.message);await loadOrders()}
-if(sb){sb.auth.onAuthStateChange((event,s)=>{if(event==="PASSWORD_RECOVERY"){recoveryMode=true;tab("reset");msg("Enlace verificado. Ahora crea tu nueva contraseña.")}else if(s&&!recoveryMode)setTimeout(load,0)});sb.auth.getSession().then(({data})=>{if(data.session&&!recoveryMode)load();else if(recoveryMode){tab("reset");msg("Enlace verificado. Ahora crea tu nueva contraseña.")}})}
+
+// Mensajería privada entre el administrador y cada comprador.
+function appendChatBubble(container,text,mine,time,label){
+ const bubble=document.createElement("div");bubble.className="chat-bubble"+(mine?" mine":"");
+ const body=document.createElement("div");body.textContent=text;
+ const meta=document.createElement("small");meta.className="chat-meta";meta.textContent=(label?label+" · ":"")+new Date(time).toLocaleString("es-PE",{dateStyle:"short",timeStyle:"short"});
+ bubble.append(body,meta);container.append(bubble);
+}
+async function loadMessages(){
+ if(!currentUser)return;
+ const selector=$("chatCustomerWrap");
+ if(isAdmin){
+  selector.classList.remove("hidden");
+  const {data,error}=await sb.from("profiles").select("id,email").eq("role","user").order("email");
+  if(error){$("chatError").textContent="No se pudieron cargar los clientes: "+error.message;return}
+  const select=$("chatCustomer");select.replaceChildren();
+  for(const customer of (data||[])){const option=document.createElement("option");option.value=customer.id;option.textContent=customer.email||"Cliente";select.append(option)}
+  if(selectedCustomerId&&data?.some(x=>x.id===selectedCustomerId))select.value=selectedCustomerId;
+  else selectedCustomerId=select.value||null;
+  select.onchange=()=>{selectedCustomerId=select.value;loadMessages()};
+ }else{
+  selector.classList.add("hidden");selectedCustomerId=adminId;
+ }
+ const windowBox=$("chatWindow");windowBox.replaceChildren();$("chatError").textContent="";
+ if(!selectedCustomerId){const p=document.createElement("p");p.className="muted";p.textContent="Todavía no hay una conversación disponible.";windowBox.append(p);return}
+ const filter="and(sender_id.eq."+currentUser.id+",recipient_id.eq."+selectedCustomerId+"),and(sender_id.eq."+selectedCustomerId+",recipient_id.eq."+currentUser.id+")";
+ const {data,error}=await sb.from("messages").select("id,sender_id,recipient_id,body,created_at").or(filter).order("created_at",{ascending:true});
+ if(error){$("chatError").textContent="No se pudieron cargar los mensajes: "+error.message;return}
+ if(!data?.length){const p=document.createElement("p");p.className="muted";p.textContent="Inicia la conversación escribiendo tu primer mensaje.";windowBox.append(p);return}
+ for(const item of data){appendChatBubble(windowBox,item.body,item.sender_id===currentUser.id,item.created_at,item.sender_id===currentUser.id?"Tú":(isAdmin?"Cliente":"ESSENZA"))}
+ windowBox.scrollTop=windowBox.scrollHeight;
+}
+function subscribeMessages(){
+ if(messageChannel)sb.removeChannel(messageChannel);
+ messageChannel=sb.channel("essenza-messages-"+currentUser.id).on("postgres_changes",{event:"*",schema:"public",table:"messages"},()=>{if(!$("messagesSection").classList.contains("hidden"))loadMessages()}).subscribe();
+}
+$("showMessages").onclick=()=>{$("messagesSection").classList.remove("hidden");loadMessages();$("messagesSection").scrollIntoView({behavior:"smooth",block:"start"})};
+$("chatForm").onsubmit=async e=>{e.preventDefault();const body=$("chatBody").value.trim(),recipient=isAdmin?selectedCustomerId:adminId;if(!body||!recipient)return;const{error}=await sb.from("messages").insert({sender_id:currentUser.id,recipient_id:recipient,body});if(error){$("chatError").textContent="No se pudo enviar: "+error.message;return}$("chatBody").value="";await loadMessages()};
+
+// Calculadora segura para operaciones aritméticas sencillas, sin eval().
+function calculateMath(raw){
+ let source=raw.toLowerCase().replace(/cu[aá]nto es|cu[aá]nto da|calcula|resuelve|resultado de/g,"").replace(/[?=]/g,"").trim();
+ if(!source||!/^[0-9\\s.+\\-*/()%]+$/.test(source))return null;
+ const compact=source.replace(/\\s+/g,""),tokens=compact.match(/\\d+(?:\\.\\d+)?|[()+\\-*/%]/g);
+ if(!tokens||tokens.join("")!==compact)return null;
+ let i=0;
+ function primary(){const t=tokens[i++];if(t==="+")return primary();if(t==="-")return-primary();if(t==="("){const v=expression();if(tokens[i++]!==")")throw Error();return v}if(t===undefined||!/^\\d/.test(t))throw Error();return Number(t)}
+ function term(){let v=primary();while(["*","/","%"].includes(tokens[i])){const op=tokens[i++],r=primary();if((op==="/"||op==="%")&&r===0)throw Error();v=op==="*"?v*r:op==="/"?v/r:v%r}return v}
+ function expression(){let v=term();while(tokens[i]==="+"||tokens[i]==="-"){const op=tokens[i++],r=term();v=op==="+"?v+r:v-r}return v}
+ try{const result=expression();if(i!==tokens.length||!Number.isFinite(result))return null;return result} catch{return null}
+}
+function localSupportAnswer(question,aiDisabled){
+ const math=calculateMath(question);if(math!==null)return "El resultado es "+math.toLocaleString("es-PE",{maximumFractionDigits:8})+".";
+ const q=question.toLowerCase();
+ if(/pedido|solicitud|compra|estado/.test(q))return "Puedes revisar el avance en “Mis pedidos”. Cuando el administrador inicia el pedido aparece como “En preparación”; al terminarlo verás “Tu pedido está listo”.";
+ if(/cat[aá]logo|perfume|producto|stock|precio/.test(q))return "En “Catálogo de perfumes” puedes consultar los productos publicados, su precio y el stock disponible. Si un perfume no aparece, actualiza la página e inténtalo de nuevo.";
+ if(/mensaje|chat|hablar|contactar/.test(q))return "Abre “Mensajes” para conversar directamente con el administrador de ESSENZA. La conversación es privada entre el comprador y la administración.";
+ if(/contrase[nñ]a|iniciar sesi[oó]n|cerrar sesi[oó]n|cuenta/.test(q))return "Tu cuenta permanece registrada aunque cierres sesión. Para volver a entrar usa el mismo correo y contraseña. Si no recuerdas la contraseña, pulsa “¿Olvidaste tu contraseña?” en la pantalla de acceso.";
+ if(/admin|administrador|publicar/.test(q))return "La primera cuenta registrada en ESSENZA tiene el rol de administrador. El administrador puede publicar perfumes y gestionar las solicitudes de compra.";
+ return aiDisabled?"La IA avanzada todavía está pendiente de activación. Por ahora puedo ayudarte con ESSENZA, pedidos, catálogo y operaciones matemáticas sencillas.":"Puedo orientarte sobre ESSENZA y preguntas generales. Cuéntame un poco más para ayudarte.";
+}
+function addSupportLine(text,mine){const bubble=document.createElement("div");bubble.className="chat-bubble"+(mine?" mine":"");bubble.textContent=text;$("supportLog").append(bubble);$("supportLog").scrollTop=$("supportLog").scrollHeight}
+$("showSupport").onclick=()=>{$("supportPanel").classList.remove("hidden");$("supportInput").focus()};
+$("supportLauncher").onclick=()=>$("supportPanel").classList.toggle("hidden");
+$("supportClose").onclick=()=>$("supportPanel").classList.add("hidden");
+$("supportForm").onsubmit=async e=>{
+ e.preventDefault();const question=$("supportInput").value.trim();if(!question)return;
+ $("supportInput").value="";addSupportLine(question,true);supportHistory.push({role:"user",content:question});
+ const math=calculateMath(question);
+ if(math!==null){const answer=localSupportAnswer(question,false);addSupportLine(answer,false);supportHistory.push({role:"assistant",content:answer});return}
+ const{data:{session}}=await sb.auth.getSession();
+ try{
+  const response=await fetch("/api/support",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},body:JSON.stringify({messages:supportHistory.slice(-10)})});
+  const result=await response.json();
+  const answer=response.ok?(result.reply||"No pude generar una respuesta."):(result.code==="AI_DISABLED"?localSupportAnswer(question,true):"No pude conectar con el soporte avanzado ahora. "+(result.error||"Inténtalo más tarde."));
+  addSupportLine(answer,false);supportHistory.push({role:"assistant",content:answer});
+ }catch{const answer=localSupportAnswer(question,true);addSupportLine(answer,false);supportHistory.push({role:"assistant",content:answer})}
+};
+if(sb){sb.auth.onAuthStateChange((event,s)=>{if(event==="PASSWORD_RECOVERY"){recoveryMode=true;tab("reset");msg("Enlace verificado. Ahora crea tu nueva contraseña.")}else if(event==="SIGNED_OUT"){currentUser=null;isAdmin=false;$("dash").classList.add("hidden");$("supportLauncher").classList.add("hidden");$("auth").classList.remove("hidden");tab("login")}});sb.auth.getSession().then(({data})=>{if(data.session&&!recoveryMode)load();else if(recoveryMode){tab("reset");msg("Enlace verificado. Ahora crea tu nueva contraseña.")}})}
 </script></body></html>
