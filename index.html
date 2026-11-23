@@ -419,9 +419,11 @@ function calculateMath(raw){
 }
 function localSupportAnswer(question,aiDisabled){
  const math=calculateMath(question);if(math!==null)return "El resultado es "+math.toLocaleString("es-PE",{maximumFractionDigits:8})+".";
- const q=question.toLowerCase().trim();
- if(/^(hola|holi|buenas|buenos d[ií]as|buenas tardes|buenas noches|hey|hello|hi)[!. ]*$/.test(q))return "¡Hola! 👋 Soy el asistente de ESSENZA. Puedo explicarte cómo usar la plataforma, ayudarte con tus pedidos y perfumes, resolver operaciones matemáticas y responder preguntas generales. ¿Qué necesitas?";
+ const q=question.toLowerCase().trim().normalize("NFD").replace(/[\\u0300-\\u036f]/g,"");
+ if(/^(hola|holi|holw|hol|buenas|buenos dias|buenas tardes|buenas noches|hey|hello|hi)[!. ]*$/.test(q))return "¡Hola! 👋 Soy el asistente de ESSENZA. Puedo explicarte cómo usar la plataforma, ayudarte con tus pedidos y perfumes, resolver operaciones matemáticas y responder preguntas generales. ¿Qué necesitas?";
  if(/^(gracias|muchas gracias|thanks)[!. ]*$/.test(q))return "¡De nada! Estoy aquí para ayudarte con ESSENZA. 😊";
+ if(/que se puede hacer|que puedo hacer|funciones de essenza|para que sirve essenza|que ofrece essenza/.test(q))return "En ESSENZA puedes crear una cuenta e iniciar sesión, explorar el catálogo de perfumes, consultar productos y precios, realizar pedidos, revisar el estado de tus solicitudes y comunicarte en privado con la administración mediante mensajes. También puedes realizar llamadas de audio o video desde Mensajes. Si eres administrador, puedes publicar perfumes y gestionar las solicitudes.";
+ if(/como inicio sesion|como iniciar sesion|entrar a mi cuenta|como entro/.test(q))return "Para iniciar sesión: 1) Abre ESSENZA y elige la pestaña “Iniciar sesión”. 2) Escribe el correo con el que registraste tu cuenta. 3) Escribe tu contraseña. 4) Pulsa “Iniciar sesión”. Si olvidaste tu contraseña, selecciona “¿Olvidaste tu contraseña?” y sigue los pasos para recibir el código de recuperación de 6 dígitos.";
  if(/^(adi[oó]s|chau|hasta luego)[!. ]*$/.test(q))return "¡Hasta luego! Cuando necesites ayuda con ESSENZA, aquí estaré.";
  if(/pedido|solicitud|compra|estado/.test(q))return "Puedes revisar el avance en “Mis pedidos”. Cuando el administrador inicia el pedido aparece como “En preparación”; al terminarlo verás “Tu pedido está listo”.";
  if(/cat[aá]logo|perfume|producto|stock|precio/.test(q))return "En “Catálogo de perfumes” puedes consultar los productos publicados, su precio y el stock disponible. Si un perfume no aparece, actualiza la página e inténtalo de nuevo.";
