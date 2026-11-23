@@ -404,3 +404,30 @@ begin
  if not exists(select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='orders') then alter publication supabase_realtime add table public.orders; end if;
  if not exists(select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='products') then alter publication supabase_realtime add table public.products; end if;
 end $$;
+
+
+-- Refuerzo: la implementación SECURITY DEFINER queda en el esquema privado.
+create or replace function private.create_essenza_order_inner(p_product_id uuid,p_quantity integer)
+returns public.orders language plpgsql security definer set search_path = ''
+as $$
+declare actor uuid := (select auth.uid()); product_row public.products; created_order public.orders;
+begin
+ if actor is null then raise exception 'Debes iniciar sesión para solicitar un perfume.'; end if;
+ if p_quantity is null or p_quantity<1 or p_quantity>100 then raise exception 'La cantidad solicitada no es válida.'; end if;
+ select * into product_row from public.products where id=p_product_id for update;
+ if not found then raise exception 'Este perfume ya no está disponible.'; end if;
+ if product_row.stock<p_quantity then raise exception 'Stock insuficiente. Disponibles: %.',product_row.stock; end if;
+ update public.products set stock=stock-p_quantity where id=p_product_id;
+ insert into public.orders(buyer_id,buyer_email,product_id,product_name,unit_price,quantity,status)
+ values(actor,coalesce((select auth.jwt()->>'email'),''),product_row.id,product_row.name,product_row.price,p_quantity,'pending')
+ returning * into created_order;
+ return created_order;
+end; $$;
+revoke all on function private.create_essenza_order_inner(uuid,integer) from public,anon;
+grant usage on schema private to authenticated;
+grant execute on function private.create_essenza_order_inner(uuid,integer) to authenticated;
+create or replace function public.create_essenza_order(p_product_id uuid,p_quantity integer)
+returns public.orders language sql security invoker set search_path = ''
+as $$ select private.create_essenza_order_inner(p_product_id,p_quantity); $$;
+revoke all on function public.create_essenza_order(uuid,integer) from public,anon;
+grant execute on function public.create_essenza_order(uuid,integer) to authenticated;
