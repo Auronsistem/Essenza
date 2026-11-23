@@ -72,7 +72,7 @@
 <div id="messagesSection" class="hidden"><h3 class="section-title">Mensajes privados</h3>
 <div class="messaging-layout">
  <aside class="chat-sidebar">
-  <form id="chatSearchForm" class="chat-search"><label for="chatSearchEmail">Buscar usuario por correo</label><div class="chat-search-row"><input id="chatSearchEmail" type="email" autocomplete="off" placeholder="correo@ejemplo.com" required><button type="submit">Buscar</button></div></form>
+  <form id="chatSearchForm" class="chat-search"><label for="chatSearchEmail">Buscar usuario por correo</label><div class="chat-search-row"><input id="chatSearchEmail" type="text" autocomplete="off" placeholder="Escribe solo el usuario, sin @gmail.com" required><button type="submit">Buscar</button></div><p class="hint">Ejemplo: elfacupro67</p></form>
   <div id="chatSearchResults" class="chat-search-results" aria-live="polite"></div>
   <h4 class="chat-list-title">Conversaciones</h4><div id="chatContacts" class="chat-contacts"><p class="muted">Todavía no tienes conversaciones.</p></div>
  </aside>
@@ -192,7 +192,7 @@ async function loadConversationList(){
 }
 async function searchEssenzaUser(email){
  const results=$("chatSearchResults");results.replaceChildren();
- const normalized=email.trim().toLowerCase();
+ const normalized=email.trim().toLowerCase().replace(/^@/,"");
  if(!normalized)return;
  const {data,error}=await sb.rpc("find_essenza_user_by_email",{p_email:normalized});
  if(error){results.textContent="No se pudo buscar: "+error.message;return}
