@@ -322,3 +322,85 @@ begin
   end if;
 end $;
 notify pgrst,'reload schema';
+
+
+-- Inventario atomico y notificaciones de ESSENZA.
+create table if not exists public.notifications (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  type text not null check (type in ('new_order','stock_depleted','order_ready')),
+  title text not null,
+  body text not null,
+  order_id uuid references public.orders(id) on delete set null,
+  created_at timestamptz not null default now(),
+  read_at timestamptz
+);
+create index if not exists notifications_user_created_idx on public.notifications(user_id,created_at desc);
+alter table public.notifications enable row level security;
+drop policy if exists "Users read own Essenza notifications" on public.notifications;
+create policy "Users read own Essenza notifications" on public.notifications for select to authenticated using(user_id=(select auth.uid()));
+drop policy if exists "Users mark own Essenza notifications read" on public.notifications;
+create policy "Users mark own Essenza notifications read" on public.notifications for update to authenticated using(user_id=(select auth.uid())) with check(user_id=(select auth.uid()));
+grant select on public.notifications to authenticated;
+grant update(read_at) on public.notifications to authenticated;
+
+drop policy if exists "buyers create own orders" on public.orders;
+revoke insert on public.orders from authenticated;
+create or replace function public.create_essenza_order(p_product_id uuid,p_quantity integer)
+returns public.orders language plpgsql security definer set search_path = ''
+as $$
+declare actor uuid := (select auth.uid()); product_row public.products; created_order public.orders;
+begin
+ if actor is null then raise exception 'Debes iniciar sesión para solicitar un perfume.'; end if;
+ if p_quantity is null or p_quantity<1 or p_quantity>100 then raise exception 'La cantidad solicitada no es válida.'; end if;
+ select * into product_row from public.products where id=p_product_id for update;
+ if not found then raise exception 'Este perfume ya no está disponible.'; end if;
+ if product_row.stock<p_quantity then raise exception 'Stock insuficiente. Disponibles: %.',product_row.stock; end if;
+ update public.products set stock=stock-p_quantity where id=p_product_id;
+ insert into public.orders(buyer_id,buyer_email,product_id,product_name,unit_price,quantity,status)
+ values(actor,coalesce((select auth.jwt()->>'email'),''),product_row.id,product_row.name,product_row.price,p_quantity,'pending')
+ returning * into created_order;
+ return created_order;
+end; $$;
+revoke all on function public.create_essenza_order(uuid,integer) from public,anon;
+grant execute on function public.create_essenza_order(uuid,integer) to authenticated;
+
+drop policy if exists "Essenza admin deletes products" on public.products;
+create policy "Essenza admin deletes products" on public.products for delete to authenticated using(private.is_essenza_admin());
+grant delete on public.products to authenticated;
+
+create or replace function private.notify_essenza_order_events()
+returns trigger language plpgsql security definer set search_path = ''
+as $$
+declare admin_user uuid; remaining_stock integer;
+begin
+ if tg_op='INSERT' then
+  select id into admin_user from public.profiles where role='admin' order by created_at asc limit 1;
+  if admin_user is not null then
+   insert into public.notifications(user_id,type,title,body,order_id)
+   values(admin_user,'new_order','Nuevo pedido en ESSENZA',coalesce(new.buyer_email,'Un comprador')||' solicitó '||new.quantity::text||' unidad(es) de '||new.product_name||'.',new.id);
+  end if;
+  if new.product_id is not null then
+   select stock into remaining_stock from public.products where id=new.product_id;
+   if remaining_stock=0 and admin_user is not null then
+    insert into public.notifications(user_id,type,title,body,order_id)
+    values(admin_user,'stock_depleted','Perfume sin stock','“'||new.product_name||'” llegó a 0 unidades después de este pedido.',new.id);
+   end if;
+  end if;
+ elsif tg_op='UPDATE' and old.status is distinct from new.status and new.status='completed' then
+  insert into public.notifications(user_id,type,title,body,order_id)
+  values(new.buyer_id,'order_ready','Tu pedido está listo','Tu pedido de '||new.product_name||' está listo.',new.id);
+ end if;
+ return new;
+end; $$;
+drop trigger if exists essenza_notify_order_insert on public.orders;
+create trigger essenza_notify_order_insert after insert on public.orders for each row execute function private.notify_essenza_order_events();
+drop trigger if exists essenza_notify_order_ready on public.orders;
+create trigger essenza_notify_order_ready after update of status on public.orders for each row execute function private.notify_essenza_order_events();
+
+do $$
+begin
+ if not exists(select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='notifications') then alter publication supabase_realtime add table public.notifications; end if;
+ if not exists(select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='orders') then alter publication supabase_realtime add table public.orders; end if;
+ if not exists(select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='products') then alter publication supabase_realtime add table public.products; end if;
+end $$;
