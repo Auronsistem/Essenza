@@ -433,3 +433,37 @@ revoke all on function public.create_essenza_order(uuid,integer) from public,ano
 grant execute on function public.create_essenza_order(uuid,integer) to authenticated;
 
 create index if not exists notifications_order_id_idx on public.notifications(order_id);
+
+
+-- Notificaciones para mensajes privados y llamadas entrantes.
+alter table public.notifications drop constraint if exists notifications_type_check;
+alter table public.notifications add constraint notifications_type_check
+check (type = any (array['new_order','stock_depleted','order_ready','new_message','incoming_call']::text[]));
+
+create or replace function private.notify_essenza_social_events()
+returns trigger language plpgsql security definer set search_path = ''
+as $$
+declare sender_email text;
+begin
+ if tg_table_name='messages' then
+  if new.sender_id is null or new.recipient_id is null or new.sender_id=new.recipient_id then return new; end if;
+  select email into sender_email from auth.users where id=new.sender_id;
+  insert into public.notifications(user_id,type,title,body)
+  values(new.recipient_id,'new_message','Nuevo mensaje en ESSENZA',coalesce(sender_email,'Un contacto')||' te ha enviado un mensaje.');
+ elsif tg_table_name='call_sessions' then
+  if new.caller_id is null or new.callee_id is null or new.caller_id=new.callee_id then return new; end if;
+  if new.status='ringing' then
+   select email into sender_email from auth.users where id=new.caller_id;
+   insert into public.notifications(user_id,type,title,body)
+   values(new.callee_id, 'incoming_call',
+    case when new.call_type='video' then 'Videollamada entrante' else 'Llamada entrante' end,
+    coalesce(sender_email,'Un contacto')||case when new.call_type='video' then ' te está llamando por vídeo.' else ' te está llamando.' end);
+  end if;
+ end if;
+ return new;
+end; $$;
+revoke all on function private.notify_essenza_social_events() from public,anon,authenticated;
+drop trigger if exists essenza_notify_message_insert on public.messages;
+create trigger essenza_notify_message_insert after insert on public.messages for each row execute function private.notify_essenza_social_events();
+drop trigger if exists essenza_notify_call_insert on public.call_sessions;
+create trigger essenza_notify_call_insert after insert on public.call_sessions for each row execute function private.notify_essenza_social_events();
