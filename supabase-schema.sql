@@ -431,3 +431,5 @@ returns public.orders language sql security invoker set search_path = ''
 as $$ select private.create_essenza_order_inner(p_product_id,p_quantity); $$;
 revoke all on function public.create_essenza_order(uuid,integer) from public,anon;
 grant execute on function public.create_essenza_order(uuid,integer) to authenticated;
+
+create index if not exists notifications_order_id_idx on public.notifications(order_id);
