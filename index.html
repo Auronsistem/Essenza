@@ -441,13 +441,17 @@ $("supportForm").onsubmit=async e=>{
  $("supportInput").value="";addSupportLine(question,true);supportHistory.push({role:"user",content:question});
  const math=calculateMath(question);
  if(math!==null){const answer=localSupportAnswer(question,false);addSupportLine(answer,false);supportHistory.push({role:"assistant",content:answer});return}
- const{data:{session}}=await sb.auth.getSession();
+ const localAnswer=localSupportAnswer(question,true);
+ const genericAnswer="Puedo ayudarte con ESSENZA, pedidos, catálogo, cuentas y cálculos. Para responder mejor, dime un poco más sobre tu pregunta.";
+ if(localAnswer!==genericAnswer){addSupportLine(localAnswer,false);supportHistory.push({role:"assistant",content:localAnswer});return}
  try{
+  const{data:{session}}=await sb.auth.getSession();
+  if(!session){addSupportLine(localAnswer,false);supportHistory.push({role:"assistant",content:localAnswer});return}
   const response=await fetch("/api/support",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},body:JSON.stringify({messages:supportHistory.slice(-10)})});
   const result=await response.json();
-  const answer=response.ok?(result.reply||"No pude generar una respuesta."):(result.code==="AI_DISABLED"?localSupportAnswer(question,true):"No pude conectar con el soporte avanzado ahora. "+(result.error||"Inténtalo más tarde."));
+  const answer=response.ok?(result.reply||localAnswer):(result.code==="AI_DISABLED"?localAnswer:"No pude conectar con el soporte avanzado ahora. "+(result.error||"Inténtalo más tarde."));
   addSupportLine(answer,false);supportHistory.push({role:"assistant",content:answer});
- }catch{const answer=localSupportAnswer(question,true);addSupportLine(answer,false);supportHistory.push({role:"assistant",content:answer})}
+ }catch{addSupportLine(localAnswer,false);supportHistory.push({role:"assistant",content:localAnswer})}
 };
 if(sb){sb.auth.onAuthStateChange((event,s)=>{if(event==="PASSWORD_RECOVERY"){recoveryMode=true;resetOtpVerified=true;tab("reset");msg("Verificación correcta. Ahora crea tu nueva contraseña.")}else if(event==="SIGNED_OUT"){currentUser=null;isAdmin=false;$("dash").classList.add("hidden");$("supportLauncher").classList.add("hidden");$("auth").classList.remove("hidden");tab("login")}});sb.auth.getSession().then(({data})=>{if(data.session&&!recoveryMode)load();else if(recoveryMode){resetOtpVerified=true;tab("reset");msg("Verificación correcta. Ahora crea tu nueva contraseña.")}})}
 </script></body></html>
