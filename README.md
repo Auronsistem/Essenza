@@ -12,6 +12,19 @@ Plataforma web de catálogo de perfumes, pedidos y mensajería entre compradores
 7. Mensajes privados entre usuarios: búsqueda por correo exacto, lista de conversaciones y entrega en tiempo real. RLS limita la lectura y escritura de cada conversación a sus dos participantes. El buscador devuelve únicamente una coincidencia exacta y no expone el directorio completo. Los mensajes quedan guardados en Supabase aunque el destinatario no esté conectado; al volver a abrir ESSENZA podrá leerlos. La alerta en tiempo real aparece cuando tiene la web abierta.
 8. Llamadas de voz y videollamadas 1 a 1 usan WebRTC, invitaciones persistidas en `call_sessions` y señalización Realtime privada. El navegador solicita micrófono/cámara al iniciar o aceptar una llamada. Se incluye STUN para conectividad inicial; para máxima compatibilidad entre redes se debe configurar un servicio TURN con credenciales seguras.
 
+## Inventario y notificaciones
+- Cada solicitud se procesa con la función atómica `create_essenza_order`: valida el stock, descuenta las unidades y crea el pedido en una sola transacción. Si no hay suficientes unidades, no se crea el pedido.
+- Al administrador le aparece una notificación cuando entra una solicitud y otra si el producto queda en cero unidades.
+- Al marcar un pedido como terminado, el comprador recibe una notificación en su bandeja ESSENZA.
+- El administrador puede eliminar productos del catálogo. Los pedidos históricos conservan el nombre, precio y cantidad aunque el producto se retire.
+- Las notificaciones se guardan en Supabase, tienen políticas RLS por usuario y se actualizan en tiempo real. El navegador puede mostrar avisos del sistema cuando ESSENZA está abierta y el usuario concede permiso.
+- Para notificaciones push fiables con la app cerrada todavía hay que configurar las suscripciones push y las claves VAPID privadas en el servidor. No se debe publicar ninguna clave privada en GitHub ni en el navegador.
+
+## Aplicación instalable (PWA)
+- Incluye `manifest.webmanifest`, `icon.svg` y `sw.js` para instalar ESSENZA en dispositivos compatibles y ofrecer una caché básica de la aplicación.
+- Android/Chrome y escritorio: usar “Instalar aplicación” o “Añadir a pantalla de inicio”. iPhone/iPad: Safari > Compartir > “Añadir a pantalla de inicio”.
+- El funcionamiento de la aplicación requiere conexión a Internet para acceder a Supabase y actualizar pedidos.
+
 ## Vercel
 - Repositorio: `Auronsistem/Essenza`
 - Dominio principal: https://essenza-auronsistem.vercel.app
