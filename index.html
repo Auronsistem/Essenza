@@ -123,6 +123,7 @@ async function load(){
  const {data:{session},error:sessionError}=await sb.auth.getSession();
  if(sessionError||!session){msg("No se pudo recuperar la sesión. Vuelve a iniciar sesión.",true);return}
  currentUser=user;
+ if("Notification" in window&&Notification.permission==="default")$("notificationPrompt").classList.remove("hidden");else $("notificationPrompt").classList.add("hidden");
  $("auth").classList.add("hidden");$("dash").classList.remove("hidden");$("supportLauncher").classList.remove("hidden");$("email").textContent=currentUser.email||"";
  const {data:p,error}=await sb.from("profiles").select("role").eq("id",currentUser.id).maybeSingle();
  if(error||!p){
@@ -222,6 +223,7 @@ $("enableNotifications").onclick=async()=>{
   }else{$("enableNotifications").textContent=permission==="denied"?"Permiso bloqueado":"Activar notificaciones";alert("No se concedió el permiso. Puedes cambiarlo en los ajustes del sitio de tu navegador.")}
  }catch(error){alert("No se pudo activar: "+error.message)}
 };
+$("askNotifications").onclick=()=>$("enableNotifications").click();
 $("installApp").onclick=async()=>{
  if(installPromptEvent){installPromptEvent.prompt();await installPromptEvent.userChoice;installPromptEvent=null;$("installApp").textContent="Instalación solicitada";return}
  alert("Para instalar ESSENZA:\n• Android/Chrome: abre el menú ⋮ y elige “Instalar aplicación” o “Añadir a pantalla de inicio”.\n• iPhone/iPad: abre Compartir en Safari y elige “Añadir a pantalla de inicio”.\n• En PC: usa el icono de instalación que aparece en la barra de direcciones de Chrome o Edge.");
