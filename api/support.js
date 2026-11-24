@@ -20,7 +20,7 @@ module.exports = async function handler(req, res) {
     return res.status(403).json({ error: "Origen no permitido." });
   }
 
-  const bearer = String(req.headers.authorization || "").match(/^Bearer\s+(.+)$/i);
+  const bearer = String(req.headers.authorization || "").match(/^Bearer\\s+(.+)$/i);
   if (!bearer) return res.status(401).json({ error: "Inicia sesión para usar el soporte." });
 
   try {
@@ -39,14 +39,6 @@ module.exports = async function handler(req, res) {
       return res.status(503).json({
         code: "AI_DISABLED",
         error: "La IA avanzada aún no está activada."
-      });
-    }
-
-    const gatewayToken = process.env.AI_GATEWAY_API_KEY || req.headers["x-vercel-oidc-token"];
-    if (!gatewayToken) {
-      return res.status(503).json({
-        code: "AI_AUTH_MISSING",
-        error: "Falta configurar la autenticación del servicio de IA."
       });
     }
 
@@ -77,31 +69,86 @@ Reglas:
 - No inventes precios, existencias, fechas de entrega, políticas de envío ni datos de un pedido que no se te hayan proporcionado.
 - No solicites contraseñas, códigos de verificación ni datos bancarios.
 - Si una consulta requiere revisar la cuenta o un pedido, explica dónde verlo en ESSENZA.
+- No afirmes que has realizado acciones dentro de la plataforma si no tienes acceso a ellas.
 - Si no sabes algo, dilo con honestidad.`;
 
-    const aiResponse = await fetch("https://ai-gateway.vercel.sh/v1/chat/completions", {
+    // Prioriza el mismo proveedor configurable que SPLASH AI.
+    const baseUrl = process.env.AUREON_AI_BASE_URL?.trim();
+    const providerKey = process.env.AUREON_AI_API_KEY?.trim();
+    const providerModel = process.env.AUREON_AI_MODEL?.trim();
+
+    let endpoint;
+    let authorization;
+    let model;
+
+    if (baseUrl || providerKey || providerModel) {
+      if (!baseUrl || !providerKey || !providerModel) {
+        return res.status(503).json({
+          code: "AI_PROVIDER_NOT_CONFIGURED",
+          error: "La conexión compartida de IA no está configurada por completo."
+        });
+      }
+      try {
+        const parsed = new URL(baseUrl);
+        if (parsed.protocol !== "https:") throw new Error("HTTPS_REQUIRED");
+        while (parsed.pathname.endsWith("/")) parsed.pathname = parsed.pathname.slice(0, -1);
+        if (!parsed.pathname.endsWith("/chat/completions")) parsed.pathname += "/chat/completions";
+        endpoint = parsed.toString();
+      } catch {
+        return res.status(503).json({
+          code: "AI_PROVIDER_URL_INVALID",
+          error: "La dirección segura del proveedor de IA no es válida."
+        });
+      }
+      authorization = providerKey;
+      model = providerModel;
+    } else {
+      // Compatibilidad con la configuración anterior de Vercel AI Gateway.
+      const gatewayToken = process.env.AI_GATEWAY_API_KEY || req.headers["x-vercel-oidc-token"];
+      if (!gatewayToken) {
+        return res.status(503).json({
+          code: "AI_AUTH_MISSING",
+          error: "Falta configurar la autenticación del servicio de IA."
+        });
+      }
+      endpoint = "https://ai-gateway.vercel.sh/v1/chat/completions";
+      authorization = gatewayToken;
+      model = "openai/gpt-4.1-mini";
+    }
+
+    const aiResponse = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + gatewayToken
+        Authorization: "Bearer " + authorization
       },
+      signal: AbortSignal.timeout(45000),
       body: JSON.stringify({
-        model: "openai/gpt-4.1-mini",
+        model,
         messages: [{ role: "system", content: systemPrompt }, ...messages],
-        max_tokens: 550,
-        temperature: 0.2
+        max_tokens: 600,
+        temperature: 0.55,
+        stream: false
       })
     });
 
     if (!aiResponse.ok) {
+      if (aiResponse.status === 429) {
+        return res.status(429).json({ error: "La IA alcanzó el límite temporal del proveedor. Inténtalo más tarde." });
+      }
       return res.status(502).json({ error: "El servicio de IA no respondió correctamente. Inténtalo más tarde." });
     }
     const result = await aiResponse.json();
-    const reply = result?.choices?.[0]?.message?.content;
-    if (typeof reply !== "string" || !reply.trim()) {
+    const rawReply = result?.choices?.[0]?.message?.content;
+    const reply = typeof rawReply === "string"
+      ? rawReply.trim()
+      : Array.isArray(rawReply)
+        ? rawReply.map(part => typeof part?.text === "string" ? part.text : "").join("").trim()
+        : "";
+    if (!reply) {
       return res.status(502).json({ error: "El servicio de IA devolvió una respuesta vacía." });
     }
-    return res.status(200).json({ reply: reply.trim() });
+    return res.status(200).json({ reply, model });
   } catch (error) {
     return res.status(500).json({ error: "No se pudo procesar la consulta de soporte." });
   }
